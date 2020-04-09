@@ -1,0 +1,74 @@
+@import 'normalize.scss';
+
+// === Mixins ===
+@mixin font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+// === / Mixins ===
+
+// === Common ===
+body{
+    @include font-roboto;
+}
+
+.section-outer {}
+.section-inner {
+    width: 1080px;
+    margin: 0 auto;
+}
+// === / Common ===
+
+// === header ===
+.section-header{
+    .section-inner{
+        width: 100%;
+    }
+    &-top{
+        width: 100%;
+        border-bottom: 1px solid #d9d9d9;
+        &-wrapper{
+            color:#555555;
+            width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 7px 0;
+        }
+    }
+    &-middle{
+        width: 100%;
+        background: blue;
+        &-wrapper{
+            width: 1080px;
+            margin: 0 auto;
+            padding: 7px 0;
+            &-logo{
+
+            }
+            &-search{
+
+            }
+            &-icons{
+                
+            }
+        }
+    }
+}
+// === / header ===
+
+// === menu ===
+.section-menu{}
+// === / menu ===
+
+// === slider ===
+.section-slider{}
+// === / slider ===
+
+// === cards ===
+.section-cards{}
+// === / cards ===
+
+// === footer ===
+.section-footer{}
+// === / footer ===
