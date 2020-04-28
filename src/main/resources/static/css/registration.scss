@@ -1,0 +1,29 @@
+@import 'normalize.scss';
+
+// === Mixins ===
+@mixin font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+// === / Mixins ===
+
+// === Common ===
+body{
+    @include font-roboto;
+    background: #f8f8f8;
+}
+li {
+    list-style-type: none; /* Убираем маркеры */
+}
+ul {
+    margin-left: 0; /* Отступ слева в браузере IE и Opera */
+    padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
+}
+a{
+    text-decoration: none;
+}
+.section-outer {}
+.section-inner {
+    width: 1080px;
+    margin: 0 auto;
+}
+// === / Common ===
