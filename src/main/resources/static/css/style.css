@@ -774,6 +774,87 @@ button {
   border-bottom: 2px solid #ab0810;
 }
 
+.section-profile .section-inner {
+  margin-top: 50px;
+}
+
+.section-profile-data {
+  min-height: 600px;
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #f2f2f2;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  padding-top: 50px;
+  padding-left: 100px;
+}
+
+.section-profile-data-form {
+  width: 300px;
+}
+
+.section-profile-data-form-item {
+  margin-top: 20px;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+
+.section-profile-data-form-item input {
+  border: none;
+  height: 60px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding-left: 15px;
+  outline: none;
+}
+
+.section-profile-data-form-item label {
+  position: absolute;
+  pointer-events: none;
+  left: 15px;
+  top: 13px;
+  line-height: 40px;
+  -webkit-transition: .3s;
+  transition: .3s;
+  color: #8c8c8c;
+}
+
+.section-profile-data-form-item input:focus ~ label,
+.section-profile-data-form-item input:not(:focus):valid ~ label {
+  top: -10px;
+  font-size: 14px;
+}
+
+.section-profile-data-form-item input:focus {
+  -webkit-box-shadow: 0 9px 28px #d9d9d9;
+          box-shadow: 0 9px 28px #d9d9d9;
+}
+
+.section-profile-data-form-item input:hover ~ label {
+  color: black;
+}
+
+.section-profile-data-form-changepass {
+  margin-top: 10px;
+  color: #153C6F;
+}
+
+.section-profile-data-form button {
+  margin-top: 20px;
+  width: 134px;
+  height: 64px;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  background: #ab0810;
+  border-radius: 8px;
+  color: white;
+}
+
 .section-footer {
   margin-top: 20px;
   background: #ededed;
