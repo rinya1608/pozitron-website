@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.pozitron.pbe.domain.Role;
 import ru.pozitron.pbe.domain.User;
 import ru.pozitron.pbe.repository.UserRepository;
@@ -36,18 +37,71 @@ public class UserService implements UserDetailsService {
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
+        sendMessage(user);
+
+        return true;
+    }
+    public String updateUserEmail(User user,String email) {
+        if (!email.isEmpty() && !email.equals(user.getEmail())) {
+            if (userRepository.findByEmail(email) == null) {
+                user.setEmail(email);
+                user.setActivationCode(UUID.randomUUID().toString());
+                sendMessage(user);
+                return "На эту почту отправлен код активации";
+            }
+            else if (userRepository.findByEmail(email) != null) {
+                return "К этой почте уже привязан другой аккаунт";
+            }
+        }
+        return "";
+    }
+
+    public String updateUserName(User user,String name){
+        if (!name.isEmpty() && user.getActivationCode() == null && !name.equals(user.getName())){
+            user.setName(name);
+        }
+        else if (user.getActivationCode() != null && !name.equals(user.getName())){
+            return "Активируйте свою почту";
+        }
+        return "";
+    }
+
+    public String updateUserUsername(User user,String username){
+        if (!username.isEmpty() &&
+                user.getActivationCode() == null &&
+                userRepository.findByUsernameLike(username) == null &&
+                !username.equals(user.getUsername())){
+            user.setUsername(username);
+        }
+        else if (user.getActivationCode() != null
+                && !username.equals(user.getUsername())) return "Активируйте свою почту";
+        else if (userRepository.findByUsernameLike(username) != null &&
+                !username.equals(user.getUsername())){
+            return "Пользователь с таким логином уже существует";
+        }
+        return "";
+    }
+    public String updateUserNumber(User user,String number){
+        if (!number.isEmpty() && user.getActivationCode() == null && !number.equals(user.getNumber())){
+            user.setNumber(number);
+        }
+        else if (user.getActivationCode() != null && !number.equals(user.getNumber())){
+            return "Активируйте свою почту";
+        }
+        return "";
+    }
+
+    public void sendMessage(User user){
         if (!StringUtils.isEmpty(user.getEmail())){
             String message = String.format("Здравствуйте, %s! \n" +
-                    "Добро пожаловать на сайт магазина Позитрон \n"+
-                    "Для активации аккаунта перейдите по ссылке http://localhost:8080/activate/%s",
+                            "Добро пожаловать на сайт магазина Позитрон \n"+
+                            "Для активации аккаунта перейдите по ссылке http://localhost:8080/activate/%s",
                     user.getUsername(),
                     user.getActivationCode()
             );
             mailSenderService.send(user.getEmail(),"Activation code",message);
         }
-        return true;
     }
-
     public boolean activateUser(String code) {
         User user = userRepository.findByActivationCode(code);
         if (user == null){
@@ -57,4 +111,6 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return true;
     }
+
+
 }
