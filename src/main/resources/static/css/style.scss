@@ -416,7 +416,7 @@ button{
                     color: #8c8c8c;
                 }
                 input:focus~label,
-                input:not(:focus):valid~label {
+                input:not(:focus):valid:not(:placeholder-shown)~label {
                     top: -10px;
                     font-size: 14px;
                 }
