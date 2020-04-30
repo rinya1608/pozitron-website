@@ -76,23 +76,28 @@
         <div class="section-inner">
             <div class="section-profile-data">
                 <form method="POST" class="section-profile-data-form">
+                    <span style="color:#ab0810;">${nameMessage!}</span>
                     <div class="section-profile-data-form-item">
-                        <input type="text" required>
+                        <input type="text" name="name" value="${user.name!}" placeholder=" ">
                         <label>Имя</label>
                     </div>
+                    <span style="color:#ab0810;">${usernameMessage!}</span>
                     <div class="section-profile-data-form-item">
-                        <input type="text" required>
+                        <input type="text" name="username" value="${user.username!}" placeholder=" ">
                         <label>Логин</label>
                     </div>
+                    <span style="color:#ab0810;">${emailMessage!}</span>
                     <div class="section-profile-data-form-item">
-                        <input type="text" required>
+                        <input type="text" name="email" value="${user.email!}" placeholder=" ">
                         <label>Email</label>
                     </div>
+                    <span style="color:#ab0810;">${numberMessage!}</span>
                     <div class="section-profile-data-form-item">
-                        <input type="text" required>
+                        <input type="text" value="${user.number!}" placeholder=" ">
                         <label>Телефон</label>
                     </div>
                     <div class="section-profile-data-form-changepass"><a href="#">сменить пароль</a></div>
+                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
                     <button type="submit">Сохранить</button>
                 </form>
             </div>
