@@ -824,7 +824,7 @@ button {
 }
 
 .section-profile-data-form-item input:focus ~ label,
-.section-profile-data-form-item input:not(:focus):valid ~ label {
+.section-profile-data-form-item input:not(:focus):valid:not(:placeholder-shown) ~ label {
   top: -10px;
   font-size: 14px;
 }
