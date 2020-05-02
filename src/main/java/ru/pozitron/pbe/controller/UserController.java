@@ -87,4 +87,19 @@ public class UserController {
         model.addAttribute("categories",categories);
         return "userProfile";
     }
+    @GetMapping("/profile/changeEmail/{code}")
+    public String changeEmail(Model model, @PathVariable String code){
+        boolean isTrueCode = userService.checkCodeAndActivateUser(code);
+        if (isTrueCode){
+            model.addAttribute("emailMessage","Ваш e-mail адрес изменен");
+        }
+        else model.addAttribute("emailMessage","Ссылка не действительна");
+        return "userProfile";
+    }
+    @PostMapping("/profile/changePassword")
+    public String changePassword(@AuthenticationPrincipal User user,String oldPassword,String newPassword,Model model){
+        model.addAttribute(userService.updatePassword(user,oldPassword,newPassword));
+        userRepository.save(user);
+        return "changePass";
+    }
 }
