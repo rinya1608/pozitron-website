@@ -1,25 +1,23 @@
 package ru.pozitron.pbe.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ReactiveAdapterRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.pozitron.pbe.domain.Code;
-import ru.pozitron.pbe.domain.Role;
 import ru.pozitron.pbe.domain.CodeType;
+import ru.pozitron.pbe.domain.Role;
 import ru.pozitron.pbe.domain.User;
 import ru.pozitron.pbe.repository.CodeRepository;
 import ru.pozitron.pbe.repository.UserRepository;
 
-import javax.persistence.NonUniqueResultException;
 import java.util.Collections;
 
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
     @Autowired
     MailSenderService mailSenderService;
     @Autowired
@@ -32,7 +30,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean addUser(User user){
-        User userFromDb = userRepository.findByUsername(user.getUsername());
+        User userFromDb = userRepository.findByUsernameLike(user.getUsername());
         if (userFromDb != null){
             return false;
         }
