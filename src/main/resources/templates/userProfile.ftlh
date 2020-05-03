@@ -76,27 +76,27 @@
         <div class="section-inner">
             <div class="section-profile-data">
                 <form method="POST" class="section-profile-data-form">
-                    <span style="color:#ab0810;">${nameMessage!}</span>
                     <div class="section-profile-data-form-item">
                         <input type="text" name="name" value="${user.name!}" placeholder=" ">
                         <label>Имя</label>
+                        <span style="color:#ab0810;">${nameMessage!}</span>
                     </div>
-                    <span style="color:#ab0810;">${usernameMessage!}</span>
                     <div class="section-profile-data-form-item">
                         <input type="text" name="username" value="${user.username!}" placeholder=" ">
                         <label>Логин</label>
+                        <span style="color:#ab0810;">${usernameMessage!}</span>
                     </div>
-                    <span style="color:#ab0810;">${emailMessage!}</span>
                     <div class="section-profile-data-form-item">
                         <input type="text" name="email" value="${user.email!}" placeholder=" ">
                         <label>Email</label>
+                        <span style="color:#ab0810;">${emailMessage!}</span>
                     </div>
-                    <span style="color:#ab0810;">${numberMessage!}</span>
                     <div class="section-profile-data-form-item">
-                        <input type="text" value="${user.number!}" placeholder=" ">
+                        <input type="text" name = "number" value="${user.number!}" placeholder=" ">
                         <label>Телефон</label>
+                        <span style="color:#ab0810;">${numberMessage!}</span>
                     </div>
-                    <div class="section-profile-data-form-changepass"><a href="#">сменить пароль</a></div>
+                    <div class="section-profile-data-form-changepass"><a href="/user/profile/changePassword">сменить пароль</a></div>
                     <input type="hidden" name="_csrf" value="${_csrf.token}" />
                     <button type="submit">Сохранить</button>
                 </form>
