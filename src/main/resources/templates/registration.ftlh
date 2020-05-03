@@ -13,18 +13,21 @@
         <div class="container-login-wrapper">
             <form class="container-login-wrapper-form" action="/registration" method="post">
                 <span class="container-login-wrapper-form-title">Регистрация</span>
-                <div class="container-login-wrapper-form-email container-login-wrapper-form-input">
-                    <input type="text" name="name" id="" placeholder="Имя">
+                <div class="container-login-wrapper-form-name container-login-wrapper-form-input">
+                    <input type="text" name="name" id="" placeholder="Имя" required>
                 </div>
                 ${message!""}
+                <div class="container-login-wrapper-form-username container-login-wrapper-form-input">
+                    <input type="text" name="username" id="" placeholder="Логин" required>
+                </div>
+                <div class="container-login-wrapper-form-password container-login-wrapper-form-input">
+                    <input type="password" name="password" id="" placeholder="Пароль" required>
+                </div>
                 <div class="container-login-wrapper-form-email container-login-wrapper-form-input">
-                    <input type="text" name="username" id="" placeholder="Логин">
+                    <input type="email" name="email" id="" placeholder="Адрес эл. почты" required>
                 </div>
-                <div class="container-login-wrapper-form-password container-login-wrapper-form-input">
-                    <input type="password" name="password" id="" placeholder="Пароль">
-                </div>
-                <div class="container-login-wrapper-form-password container-login-wrapper-form-input">
-                    <input type="email" name="email" id="" placeholder="Адрес эл. почты">
+                <div class="container-login-wrapper-form-number container-login-wrapper-form-input">
+                    <input type="text" name="number" id="" placeholder="Номер телефона" required>
                 </div>
                 <div class="container-login-wrapper-form-btn">
                     <div class="container-login-wrapper-form-btn-bg"></div>
