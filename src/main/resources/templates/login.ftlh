@@ -14,10 +14,10 @@
             <form class="container-login-wrapper-form" action="/login" method="post">
                 <span class="container-login-wrapper-form-title">Добро пожаловать</span>
                 <div class="container-login-wrapper-form-email container-login-wrapper-form-input">
-                    <input type="text" name="username" id="" placeholder="email">
+                    <input type="text" name="username" id="" placeholder="e-mail">
                 </div>
                 <div class="container-login-wrapper-form-password container-login-wrapper-form-input">
-                    <input type="password" name="password" id="" placeholder="password">
+                    <input type="password" name="password" id="" placeholder="Пароль">
                 </div>
                 <div class="container-login-wrapper-form-btn">
                     <div class="container-login-wrapper-form-btn-bg"></div>
