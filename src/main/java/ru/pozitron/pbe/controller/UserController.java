@@ -96,10 +96,15 @@ public class UserController {
         else model.addAttribute("emailMessage","Ссылка не действительна");
         return "userProfile";
     }
+
+    @GetMapping("/profile/changePassword")
+    public String changePasswordPage(){
+        return "changePass";
+    }
     @PostMapping("/profile/changePassword")
     public String changePassword(@AuthenticationPrincipal User user,String oldPassword,String newPassword,Model model){
         model.addAttribute(userService.updatePassword(user,oldPassword,newPassword));
         userRepository.save(user);
-        return "changePass";
+        return "redirect:/user/profile";
     }
 }
