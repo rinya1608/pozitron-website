@@ -25,7 +25,7 @@
                     <button type="submit">Войти</button>
                 </div>
                 <div class="container-login-wrapper-form-text">
-                    <span><a href="/registration">Регестрация</a>/<a href="#">Забыли пароль?</a></span>
+                    <span><a href="/registration">Регестрация</a>/<a href="/recoveryPassword">Забыли пароль?</a></span>
                     ${message!""}
                 </div>
             </form>     
