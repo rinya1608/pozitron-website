@@ -75,7 +75,19 @@
     <section class="section outer section-profile">
         <div class="section-inner">
             <div class="section-profile-data">
-                <form method="POST" class="section-profile-data-form">
+                <#if user.active??>
+                    <#else>
+                        <div class="section-profile-data-activateMessage">
+                            <span>Нажмите для отправки кода активации на ваш e-mail адрес</span>
+                            <form action="/user/profile/activate" method="POST">
+                                <input type="hidden" name="id" value="${user.id}">
+                                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                                <button type="submit">активировать</button>
+                            </form>
+                            <span>${messageActivateCode!}</span>
+                        </div>
+                </#if>
+                <form method="POST" action="/user/profile" class="section-profile-data-form">
                     <div class="section-profile-data-form-item">
                         <input type="text" name="name" value="${user.name!}" placeholder=" ">
                         <label>Имя</label>
