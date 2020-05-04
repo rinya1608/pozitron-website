@@ -62,12 +62,21 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/user";
     }
-    @GetMapping("/profile")
+    @GetMapping(value = {"/profile","/profile/*"})
     public String userProfile(@AuthenticationPrincipal User user,Model model){
         Iterable<Category> categories = categoryRepository.findAllByParentCategory(null);
         model.addAttribute("user",user);
         model.addAttribute("categories",categories);
         return "userProfile";
+    }
+    @PostMapping("/profile/activate")
+    public String sendActivateCode(@AuthenticationPrincipal User user,Model model){
+        if (!userService.resendActivateCode(user)){
+            model.addAttribute("messageActivateCode","Попробуйте повторить через пару минут");
+            return "redirect:/profile";
+        }
+        model.addAttribute("message","На указанный вами e-mail адрес отправлена инструкция по активации аккаунта");
+        return "messagePage";
     }
     @PostMapping("/profile")
     public String updateUserProfile(@AuthenticationPrincipal User user,
@@ -94,7 +103,7 @@ public class UserController {
             model.addAttribute("emailMessage","Ваш e-mail адрес изменен");
         }
         else model.addAttribute("emailMessage","Ссылка не действительна");
-        return "userProfile";
+        return "redirect:/user/profile";
     }
 
     @GetMapping("/profile/changePassword")
