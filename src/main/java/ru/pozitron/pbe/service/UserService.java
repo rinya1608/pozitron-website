@@ -13,6 +13,7 @@ import ru.pozitron.pbe.repository.CodeRepository;
 import ru.pozitron.pbe.repository.UserRepository;
 
 import java.util.Collections;
+import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -40,6 +41,15 @@ public class UserService implements UserDetailsService {
         codeRepository.save(code);
         sendMessageForActivateUser(user);
 
+        return true;
+    }
+    public boolean resendActivateCode(User user){
+        if(codeRepository.findByUserAndCodeTypeAndValueNotNull(user,CodeType.ACTIVATE_EMAIL) != null){
+            return false;
+        }
+        Code code = new Code(user, CodeType.ACTIVATE_EMAIL);
+        codeRepository.save(code);
+        sendMessageForActivateUser(user);
         return true;
     }
     public String updateUserEmail(User user,String email) {
@@ -113,6 +123,25 @@ public class UserService implements UserDetailsService {
         }
         return "";
     }
+    public boolean recoveryPassword(String email){
+        User user = userRepository.findByEmail(email);
+        if (user != null && user.isActive()){
+            user.setPassword(UUID.randomUUID().toString());
+            sendMessageForRecoveryPassword(user);
+            return true;
+        }
+        return false;
+    }
+    public void sendMessageForRecoveryPassword(User user){
+        String message = String.format("Здравствуйте, %s! \n" +
+                        "Ваш новый пароль %s \n" +
+                        "Сменить его вы можете в своем профиле" +
+                        "Вы получили это письмо, потому что с вашего аккаунта поступил запрос на смену восстановления аккаунта \n",
+                user.getName(),
+                user.getPassword()
+        );
+        mailSenderService.send(user.getEmail(),"Восстановление доступа к аккаунту",message);
+    }
     public void sendMessageForChangeEmail(User user){
         String message = String.format("Здравствуйте, %s! \n" +
                         "Перейдите по ссылке для смены e-mail адреса \n"+
@@ -133,7 +162,6 @@ public class UserService implements UserDetailsService {
         );
         mailSenderService.send(user.getEmail(),"Регистрация учетной записи Позитрон",message);
     }
-
     public boolean checkCodeAndActivateUser(String codeValue) {
         Code code = codeRepository.findByValue(codeValue);
         if (code == null){
