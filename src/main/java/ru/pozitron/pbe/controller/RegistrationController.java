@@ -41,4 +41,23 @@ public class RegistrationController {
         return "login";
     }
 
+    @GetMapping("/recoveryPassword")
+    public String getRecoveryPassword(){
+        return "recoveryPass";
+    }
+
+    @GetMapping("/message")
+    public String messagePage(){
+        return "messagePage";
+    }
+
+    @PostMapping("/recoveryPassword")
+    public String recoveryPassword(Model model,String email){
+        if (userService.recoveryPassword(email)){
+            model.addAttribute("message","Вам на почту отправлено сообщение с новым паролем");
+           return "messagePage";
+        }
+        model.addAttribute("message","аккаунт не был активирован или аккаунта с таким e-mail адресом не существует");
+        return "recoveryPass";
+    }
 }
