@@ -14,8 +14,8 @@ public class MainController {
 
     @GetMapping("/")
     public String viewCategory(Model model){
-        Iterable<Category> categories = categoryRepository.findAllByParentCategory(null);
-        model.addAttribute("categories",categories);
+        Iterable<Category> mainCategories = categoryRepository.findAllByParentCategory(null);
+        model.addAttribute("mainCategories",mainCategories);
         return "index";
     }
 
