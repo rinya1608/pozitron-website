@@ -1,3 +1,4 @@
+<#include "parts/security.ftlh">
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap&subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
-    <script src="https://kit.fontawesome.com/07a60b0def.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../static/css/fontawesome/css/all.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="../static/script/dropdown.js"></script>
     <title>Личный кабинет</title>
 </head>
 <body>
@@ -20,14 +23,21 @@
                     </div>
                     <div class="section-header-top-wrapper-right">
                         <#if user??>
-                                <div>
-                                    <form action="/logout" method="post">
-                                        <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                        <input type="submit" value="выйти">
-                                    </form>
-                                </div>
-                            <#else>
-                                <a href="/login">вход</a>/<a href="/registration">регистрация</a>
+                            <div id="dd" class="section-header-top-wrapper-right-profile" tabindex="1">
+                                <span>${name!} ${surname!} <i class="fal fa-angle-down"></i></span>
+                                <ul class="section-header-top-wrapper-right-profile-droplist">
+                                    <li><a href="/user/profile"><i class="far fa-user"></i>Профиль</a></li>
+                                    <li><a href="#"><i class="far fa-list-alt"></i>Заказы</a></li>
+                                    <li>
+                                        <form action="/logout" method="post">
+                                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                            <i class="far fa-times-circle"></i><input type="submit" value="Выйти">
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        <#else>
+                            <a href="/login">вход</a>/<a href="/registration">регистрация</a>
                         </#if>
                     </div>
                 </div>
@@ -42,7 +52,7 @@
                         </form>
                     </div>
                     <div class="section-header-middle-wrapper-icon">
-                        <span><i class="fas fa-shopping-cart"></i></span>
+                        <span><i class="far fa-shopping-cart"></i></span>
                     </div>
                 </div>
             </div>
@@ -56,8 +66,8 @@
                                 <i class="fas fa-angle-down"></i>
                             </a>
                             <ul class="section-header-bottom-wrapper-menu-sublevel">
-                                <#list categories as category>
-                                    <li><a href="/category/${category.id}">${category.name}</a></li>
+                                <#list mainCategories as mainCategory>
+                                    <li><a href="/category/${mainCategory.id}">${mainCategory.name}</a></li>
                                 </#list>
                             </ul>
                         </li>
@@ -92,6 +102,11 @@
                         <input type="text" name="name" value="${user.name!}" placeholder=" ">
                         <label>Имя</label>
                         <span style="color:#ab0810;">${nameMessage!}</span>
+                    </div>
+                    <div class="section-profile-data-form-item">
+                        <input type="text" name="surname" value="${user.surname!}" placeholder=" ">
+                        <label>Фамилия</label>
+                        <span style="color:#ab0810;">${surnameMessage!}</span>
                     </div>
                     <div class="section-profile-data-form-item">
                         <input type="text" name="username" value="${user.username!}" placeholder=" ">
