@@ -13,10 +13,13 @@
         <div class="container-login-wrapper">
             <form class="container-login-wrapper-form" action="/registration" method="post">
                 <span class="container-login-wrapper-form-title">Регистрация</span>
+                ${message!""}
                 <div class="container-login-wrapper-form-name container-login-wrapper-form-input">
                     <input type="text" name="name" id="" placeholder="Имя" required>
                 </div>
-                ${message!""}
+                <div class="container-login-wrapper-form-name container-login-wrapper-form-input">
+                    <input type="text" name="surname" id="" placeholder="Фамилия">
+                </div>
                 <div class="container-login-wrapper-form-username container-login-wrapper-form-input">
                     <input type="text" name="username" id="" placeholder="Логин" required>
                 </div>
@@ -27,7 +30,7 @@
                     <input type="email" name="email" id="" placeholder="Адрес эл. почты" required>
                 </div>
                 <div class="container-login-wrapper-form-number container-login-wrapper-form-input">
-                    <input type="text" name="number" id="" placeholder="Номер телефона" required>
+                    <input type="text" name="number" id="" placeholder="Номер телефона">
                 </div>
                 <div class="container-login-wrapper-form-btn">
                     <div class="container-login-wrapper-form-btn-bg"></div>
