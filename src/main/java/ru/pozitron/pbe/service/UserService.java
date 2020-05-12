@@ -83,6 +83,16 @@ public class UserService implements UserDetailsService {
         }
         return "";
     }
+    public String updateUserSurname(User user,String surname){
+        if (!surname.isEmpty() && user.isActive() && !surname.equals(user.getSurname())){
+            user.setSurname(surname);
+            return "Фамилия успешно изменена";
+        }
+        else if (!user.isActive() && !surname.equals(user.getSurname())){
+            return "Активируйте свою почту";
+        }
+        return "";
+    }
 
     public String updateUserUsername(User user,String username){
         if (!username.isEmpty() &&
