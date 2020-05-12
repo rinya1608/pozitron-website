@@ -64,9 +64,9 @@ public class UserController {
     }
     @GetMapping(value = {"/profile","/profile/*"})
     public String userProfile(@AuthenticationPrincipal User user,Model model){
-        Iterable<Category> categories = categoryRepository.findAllByParentCategory(null);
+        Iterable<Category> mainCategories = categoryRepository.findAllByParentCategory(null);
+        model.addAttribute("mainCategories",mainCategories);
         model.addAttribute("user",user);
-        model.addAttribute("categories",categories);
         return "userProfile";
     }
     @PostMapping("/profile/activate")
@@ -81,12 +81,14 @@ public class UserController {
     @PostMapping("/profile")
     public String updateUserProfile(@AuthenticationPrincipal User user,
                                     @RequestParam(required = false) String name,
+                                    @RequestParam(required = false) String surname,
                                     @RequestParam(required = false) String username,
                                     @RequestParam(required = false) String email,
                                     @RequestParam(required = false) String number,
                                     Model model){
 
         if (name != null) model.addAttribute("nameMessage",userService.updateUserName(user,name));
+        if (surname != null) model.addAttribute("surnameMessage",userService.updateUserSurname(user,surname));
         if (username != null) model.addAttribute("usernameMessage",userService.updateUserUsername(user,username));
         if (email != null) model.addAttribute("emailMessage",userService.updateUserEmail(user,email));
         if (number != null) model.addAttribute("numberMessage",userService.updateUserNumber(user,number));
