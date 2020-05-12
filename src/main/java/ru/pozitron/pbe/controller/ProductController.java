@@ -30,6 +30,8 @@ public class ProductController {
                               @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC,size = 1) Pageable pageable){
         Page<Product> page;
         page = productRepository.findByCategory(category,pageable);
+        Iterable<Category> mainCategories = categoryRepository.findAllByParentCategory(null);
+        model.addAttribute("mainCategories",mainCategories);
         model.addAttribute("page",page);
         model.addAttribute("category",category);
         model.addAttribute("url","products/");
