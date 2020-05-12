@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap&subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
-    <script src="https://kit.fontawesome.com/07a60b0def.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../static/css/fontawesome/css/all.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="../static/script/dropdown.js"></script>    
     <title>Главная</title>
 </head>
 <body>
@@ -21,11 +23,18 @@
                     </div>
                     <div class="section-header-top-wrapper-right">
                         <#if user??>
-                                <div>
-                                    <form action="/logout" method="post">
-                                        <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                        <input type="submit" value="выйти">
-                                    </form>
+                                <div id="dd" class="section-header-top-wrapper-right-profile" tabindex="1">
+                                    <span>${name!} ${surname!} <i class="fal fa-angle-down"></i></span>
+                                    <ul class="section-header-top-wrapper-right-profile-droplist">
+                                        <li><a href="/user/profile"><i class="far fa-user"></i>Профиль</a></li>
+                                        <li><a href="#"><i class="far fa-list-alt"></i>Заказы</a></li>
+                                        <li>
+                                            <form action="/logout" method="post">
+                                                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                                <i class="far fa-times-circle"></i><input type="submit" value="Выйти">
+                                            </form>
+                                        </li>
+                                    </ul>
                                 </div>
                             <#else>
                                 <a href="/login">вход</a>/<a href="/registration">регистрация</a>
@@ -43,7 +52,7 @@
                         </form>
                     </div>
                     <div class="section-header-middle-wrapper-icon">
-                        <span><i class="fas fa-shopping-cart"></i></span>
+                        <span><i class="far fa-shopping-cart"></i></span>
                     </div>
                 </div>
             </div>
@@ -57,8 +66,8 @@
                                 <i class="fas fa-angle-down"></i>
                             </a>
                             <ul class="section-header-bottom-wrapper-menu-sublevel">
-                                <#list categories as category>
-                                    <li><a href="/category/${category.id}">${category.name}</a></li>
+                                <#list mainCategories as mainCategory>
+                                    <li><a href="/category/${mainCategory.id}">${mainCategory.name}</a></li>
                                 </#list>
                             </ul>
                         </li>
@@ -74,10 +83,30 @@
     <!-- / Header -->
 
     <!-- / Slider -->
-    <section class="section-outer section-slider">
-        <div class="section-inner">
-            slider
+    <section id="slider" class="section-outer section-slider">
+        <div class="section-slider-wrapper">
+            <div class="section-slider-wrapper-item" style="background: url(https://images.wallpaperscraft.ru/image/solntse_skaly_pliazh_168872_1600x900.jpg) 100% 100% no-repeat;background-size: 100% auto;">
+                <div>
+                    <h1>Стиралка lg 553</h1>
+                    <a>Заказать сейчас</a>
+                </div>
+            </div>
+            <div class="section-slider-wrapper-item" style="background: url(https://images.wallpaperscraft.ru/image/drakon_roga_krylia_168864_1600x900.jpg) 100% 100% no-repeat;background-size: 100% auto ;">
+                <div>
+                    <h1>Стиралка lg 554</h1>
+                    <a>Заказать сейчас</a>
+                </div>
+            </div>
+            <div class="section-slider-wrapper-item" style="background: url(https://images.wallpaperscraft.ru/image/chasy_vintazh_vremia_168856_1600x900.jpg) 100% 100% no-repeat;background-size: 100% auto;">
+                <div>
+                    <h1>Стиралка lg 555</h1>
+                    <a>Заказать сейчас</a>
+                </div>
+            </div>
         </div>
+        <a href="" class="section-slider-control section-slider-control-left"></a>
+        <a href="" class="section-slider-control section-slider-control-right"></a>
+        <script src="../static/script/slider.js"></script>
     </section>
     <!-- / Slider -->    
     
@@ -121,5 +150,6 @@
         </div>
     </section>
     <!-- / Footer -->
+
 </body>
 </html>
