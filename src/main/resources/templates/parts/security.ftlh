@@ -5,12 +5,16 @@
 <#if known>
     <#assign
         user = Session.SPRING_SECURITY_CONTEXT.authentication.principal
-        name = user.getUsername()
+        username = user.getUsername()
+        name = user.getName()
+        surname = (user.getSurname()!)
         isAdmin = user.isAdmin()
     >
 <#else>
     <#assign
-        name = ""
+        username = " "
+        name = " "
+        surname = " "
         isAdmin = false
     >
 </#if>
