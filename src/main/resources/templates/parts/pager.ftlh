@@ -18,6 +18,8 @@
     <section class="section-outer section-page">
         <div class="section-inner">
             <ul class="section-page-wrapper">
+                <li  class="section-page-wrapper-item"><a href="/${url}?page=0" class="section-page-wrapper-item-link"><p><i class="far fa-angle-double-left"></i></p></a></li>
+                <li  class="section-page-wrapper-item"><a href="/${url}?page=${page.getNumber()-1}" class="section-page-wrapper-item-link"><p><i class="far fa-angle-left"></i></p></a></li>
                 <#list body as p>
                     <#if (p-1) == page.getNumber()>
                         <li  class="section-page-wrapper-item active"><a href="/${url}?page=${p-1}" class="section-page-wrapper-item-link"><p>${p}</p></a></li>
@@ -25,6 +27,8 @@
                         <li  class="section-page-wrapper-item"><a href="/${url}?page=${p-1}" class="section-page-wrapper-item-link"><p>${p}</p></a></li>
                     </#if>
                 </#list>
+                <li  class="section-page-wrapper-item"><a href="/${url}?page=${page.getNumber()+1}" class="section-page-wrapper-item-link"><p><i class="far fa-angle-right"></i></p></a></li>
+                <li  class="section-page-wrapper-item"><a href="/${url}?page=${page.getTotalPages()-1}" class="section-page-wrapper-item-link"><p><i class="far fa-angle-double-right"></i></p></a></li>
             </ul>
         </div>
     </section>
