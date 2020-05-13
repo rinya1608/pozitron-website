@@ -53,10 +53,15 @@ public class ProductController {
                              @RequestParam Double price,
                              @RequestParam Double count,
                              @RequestParam String unit,
+                              @RequestParam(required = false) Integer discount,
                              @RequestParam("categoryId")  Category category,
                               Model model){
 
         Product product = new Product(productName,description,price,count,unit,category);
+        if (discount != null){
+            product.setDiscount(discount);
+            product.setPrice(price - (price*discount/100));
+        }
         productRepository.save(product);
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories",categories);
