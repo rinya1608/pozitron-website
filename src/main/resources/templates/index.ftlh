@@ -23,10 +23,21 @@
                     </div>
                     <div class="section-header-top-wrapper-right">
                         <#if user??>
-                                <div id="dd" class="section-header-top-wrapper-right-profile" tabindex="1">
+                                <div id="profile" class="section-header-top-wrapper-right-profile" tabindex="1">
                                     <span>${name!} ${surname!} <i class="fal fa-angle-down"></i></span>
                                     <ul class="section-header-top-wrapper-right-profile-droplist">
                                         <li><a href="/user/profile"><i class="far fa-user"></i>Профиль</a></li>
+                                        <#if isAdmin>
+                                            <li id="admin" class="section-header-top-wrapper-right-profile-droplist_admin" tabindex="1">
+                                                <a href="#"><i class="far fa-user-crown"></i>Админ</a>
+                                                <ul id="admin-list"class="section-header-top-wrapper-right-profile-droplist_admin-list section-header-top-wrapper-right-profile-droplist">
+                                                    <li><a href="/user"><i class="fal fa-users"></i>Пользователи</a></li>
+                                                    <li><a href="/category/edit"><i class="fad fa-stream"></i>Категории</a></li>
+                                                    <li><a href="/product/add"><i class="fal fa-boxes-alt"></i>Товары</a></li>
+                                                </ul>
+                                            </li>
+                                            <#else>
+                                        </#if>
                                         <li><a href="#"><i class="far fa-list-alt"></i>Заказы</a></li>
                                         <li>
                                             <form action="/logout" method="post">
@@ -44,7 +55,7 @@
             </div>
             <div class="section-header-middle">
                 <div class="section-header-middle-wrapper">
-                    <div class="section-header-middle-wrapper-logo"></div>
+                    <a href="/"><div class="section-header-middle-wrapper-logo"></div></a>
                     <div class="section-header-middle-wrapper-search">
                         <form action="" class="section-header-middle-wrapper-search-form">
                             <input type="search" name="" placeholder="Поиск" class="section-header-middle-wrapper-search-form_input">
@@ -71,7 +82,7 @@
                                 </#list>
                             </ul>
                         </li>
-                        <li><a href="#">Главная</a></li>
+                        <li><a href="/">Главная</a></li>
                         <li><a href="#">Доставка</a></li>
                         <li><a href="#">О нас</a></li>
                         <li><a href="#">Контакты</a></li>
