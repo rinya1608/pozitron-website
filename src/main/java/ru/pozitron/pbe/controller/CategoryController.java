@@ -1,6 +1,7 @@
 package ru.pozitron.pbe.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,15 @@ public class CategoryController {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @GetMapping("/edit/category")
+    @GetMapping("/category/edit")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String categoryList(Model model){
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories",categories);
         return "categoryList";
     }
-    @PostMapping("/edit/category")
+    @PostMapping("/category/edit")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String addCategory(@RequestParam(required = false) String childCategoryName,
                               @RequestParam(required = false,value = "categoryId") Category parentCategory,
                               @RequestParam(required = false) String categoryName,
