@@ -10,7 +10,7 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-    private Integer sale;
+    private Integer discount;
     private Double count;
     private String unit;
     private String fotoname;
@@ -63,12 +63,12 @@ public class Product {
         this.price = price;
     }
 
-    public Integer getSale() {
-        return sale;
+    public Integer getDiscount() {
+        return discount;
     }
 
-    public void setSale(Integer sale) {
-        this.sale = sale;
+    public void setDiscount(Integer sale) {
+        this.discount = sale;
     }
 
     public Double getCount() {
