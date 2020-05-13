@@ -15,11 +15,21 @@ DropDown.prototype = {
 
 $(function() {
 
-    var dd = new DropDown( $('#dd') );
+    var dd = new DropDown( $('#profile') );
 
     $(document).click(function() {
         // all dropdowns
         $('.section-header-top-wrapper-right-profile').removeClass('active');
+    });
+
+});
+$(function() {
+
+    var dd = new DropDown( $('#admin') );
+
+    $(document).click(function() {
+        // all dropdowns
+        $('#admin').removeClass('active');
     });
 
 });
