@@ -491,10 +491,25 @@ button{
                 width: 80%;
                 margin: auto;
                 height: 80%;
-                &-img{
-                    width: 100%;
-                    display: block;
+                &-imageLink{
+                    position: relative;
+                    &-sale{
+                        background: #153c6f;
+                        color: white;
+                        border-radius: 15px;
+                        padding: 3px 12px;
+                        top: 3px;
+                        left: 15px;
+                        display: inline-block;
+                        z-index: 99;
+                        position: absolute;
+                    }
+                    &-img{
+                        width: 100%;
+                        display: block;
+                    }
                 }
+
                 &-name{
                     margin: 20px 0 0;
                     padding: 0;
