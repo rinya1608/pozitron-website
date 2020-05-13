@@ -64,8 +64,6 @@ public class UserController {
     }
     @GetMapping(value = {"/profile","/profile/*"})
     public String userProfile(@AuthenticationPrincipal User user,Model model){
-        Iterable<Category> mainCategories = categoryRepository.findAllByParentCategory(null);
-        model.addAttribute("mainCategories",mainCategories);
         model.addAttribute("user",user);
         return "userProfile";
     }
@@ -78,6 +76,7 @@ public class UserController {
         model.addAttribute("message","На указанный вами e-mail адрес отправлена инструкция по активации аккаунта");
         return "messagePage";
     }
+
     @PostMapping("/profile")
     public String updateUserProfile(@AuthenticationPrincipal User user,
                                     @RequestParam(required = false) String name,
