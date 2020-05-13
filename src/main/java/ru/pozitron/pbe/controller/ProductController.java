@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +31,14 @@ public class ProductController {
                               @PageableDefault(sort = {"id"},direction = Sort.Direction.DESC,size = 1) Pageable pageable){
         Page<Product> page;
         page = productRepository.findByCategory(category,pageable);
-        Iterable<Category> mainCategories = categoryRepository.findAllByParentCategory(null);
-        model.addAttribute("mainCategories",mainCategories);
         model.addAttribute("page",page);
         model.addAttribute("category",category);
         model.addAttribute("url","products/");
         return "productList";
     }
 
-    @GetMapping("product/add")
+    @GetMapping("/product/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String productAdd(Model model){
         Iterable<Product> products = productRepository.findAll();
         Iterable<Category> categories = categoryRepository.findAll();
@@ -46,7 +46,8 @@ public class ProductController {
         model.addAttribute("categories",categories);
         return "productAdd";
     }
-    @PostMapping("product/add")
+    @PostMapping("/product/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String productSave(@RequestParam String productName,
                              @RequestParam String description,
                              @RequestParam Double price,
