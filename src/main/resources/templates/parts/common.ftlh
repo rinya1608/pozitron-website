@@ -1,5 +1,5 @@
 <#macro template title>
-    <#include "security.ftlh">
+<#include "security.ftlh">
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,9 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap&subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="../static/css/fontawesome/css/all.css">
+    <link rel="stylesheet" href="../../static/css/fontawesome/css/all.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script src="../static/script/dropdown.js"></script>
+    <script src="../../static/script/dropdown.js"></script>
+    <script src="../../static/script/ajaxAddProductToCart.js"></script>
+    <script src="../../static/script/quantity.js"></script>
     <title>${title}</title>
 </head>
 <body>
