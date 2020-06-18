@@ -29,6 +29,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @OneToOne
+    private Cart cart;
+    @OneToOne
+    private Order order;
+
     public User() {
     }
 
@@ -105,6 +110,22 @@ public class User implements UserDetails {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
