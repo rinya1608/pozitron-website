@@ -5,10 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.pozitron.pbe.domain.Code;
-import ru.pozitron.pbe.domain.CodeType;
-import ru.pozitron.pbe.domain.Role;
-import ru.pozitron.pbe.domain.User;
+import ru.pozitron.pbe.domain.*;
 import ru.pozitron.pbe.repository.CodeRepository;
 import ru.pozitron.pbe.repository.UserRepository;
 
@@ -152,6 +149,7 @@ public class UserService implements UserDetailsService {
         );
         mailSenderService.send(user.getEmail(),"Восстановление доступа к аккаунту",message);
     }
+
     public void sendMessageForChangeEmail(User user){
         String message = String.format("Здравствуйте, %s! \n" +
                         "Перейдите по ссылке для смены e-mail адреса \n"+
