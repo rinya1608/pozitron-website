@@ -1,6 +1,8 @@
 package ru.pozitron.pbe.domain;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 public class Product {
@@ -9,8 +11,9 @@ public class Product {
     private Long id;
     private String name;
     private String description;
-    private Double price;
-    private Integer discount;
+    private BigDecimal price;
+    private Integer discountPercent;
+    private BigDecimal priceWithDiscount;
     private Double count;
     private String unit;
     private String fotoname;
@@ -23,7 +26,7 @@ public class Product {
 
 
 
-    public Product(String name, String description, Double price, Double count, String unit, Category category) {
+    public Product(String name, String description, BigDecimal price, Double count, String unit, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -55,20 +58,28 @@ public class Product {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public Integer getDiscount() {
-        return discount;
+    public Integer getDiscountPercent() {
+        return discountPercent;
     }
 
-    public void setDiscount(Integer sale) {
-        this.discount = sale;
+    public void setDiscountPercent(Integer sale) {
+        this.discountPercent = sale;
+    }
+
+    public BigDecimal getPriceWithDiscount() {
+        return priceWithDiscount;
+    }
+
+    public void setPriceWithDiscount(BigDecimal priceWithDiscount) {
+        this.priceWithDiscount = priceWithDiscount;
     }
 
     public Double getCount() {
@@ -103,4 +114,16 @@ public class Product {
         this.category = category;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id.equals(product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
