@@ -6,7 +6,6 @@
     <input type="text" name="price" placeholder="цена" required>
     <input type="text" name="count" placeholder="кол-во" required>
     <input type="text" name="unit" placeholder="измерение" required>
-    <input type="text" name="discount" placeholder="скидка">
     <select size="5" name="categoryId" required>
         <#list categories as category>
             <option value="${category.id}">${category.name}</option>
