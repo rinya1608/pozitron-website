@@ -9,5 +9,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
     Page<Product> findByCategory(Category category, Pageable pageable);
+    Product findByName(String name);
     Page<Product> findAll(Pageable pageable);
 }
