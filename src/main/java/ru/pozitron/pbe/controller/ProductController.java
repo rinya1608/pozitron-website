@@ -18,6 +18,8 @@ import ru.pozitron.pbe.repository.ProductRepository;
 
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
+
 @Controller
 public class ProductController {
     @Autowired
@@ -36,6 +38,11 @@ public class ProductController {
         model.addAttribute("url","products/");
         return "productList";
     }
+    @GetMapping("product/{category}/{product}")
+    public String productList(@PathVariable Product product,Model model){
+        model.addAttribute("product",product);
+        return "productPage";
+    }
 
     @GetMapping("/product/add")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -50,18 +57,14 @@ public class ProductController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String productSave(@RequestParam String productName,
                              @RequestParam String description,
-                             @RequestParam Double price,
+                             @RequestParam BigDecimal price,
                              @RequestParam Double count,
                              @RequestParam String unit,
-                              @RequestParam(required = false) Integer discount,
                              @RequestParam("categoryId")  Category category,
                               Model model){
 
         Product product = new Product(productName,description,price,count,unit,category);
-        if (discount != null){
-            product.setDiscount(discount);
-            product.setPrice(price - (price*discount/100));
-        }
+
         productRepository.save(product);
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories",categories);
