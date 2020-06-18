@@ -4,7 +4,7 @@
     <section class="section outer section-profile">
         <div class="section-inner">
             <div class="section-profile-data">
-                <#if user.active??>
+                <#if user.isActive()>
                     <#else>
                         <div class="section-profile-data-activateMessage">
                             <span>Нажмите для отправки кода активации на ваш e-mail адрес</span>
