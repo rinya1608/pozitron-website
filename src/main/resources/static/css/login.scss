@@ -25,6 +25,23 @@ input:focus::-webkit-input-placeholder { color:transparent; }
 input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
 input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
 input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+.alertError{
+    position: relative;
+    width: 100%;
+    color: #721c24;
+    padding: 5px;
+    border-radius: 8px;
+    font-size: 0.8em;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    ul{
+        li{
+            list-style: disc inside;
+            margin-top: 5px;
+            margin-left: 2px;
+        }
+    }
+}
 // === / Common ===
 
 .container-login{
