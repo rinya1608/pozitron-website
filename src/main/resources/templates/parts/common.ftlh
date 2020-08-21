@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="../../static/css/fontawesome/css/all.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="../../static/script/dropdown.js"></script>
-    <script src="../../static/script/ajaxAddProductToCart.js"></script>
-    <script src="../../static/script/quantity.js"></script>
+    <script src="../../static/script/ajaxCart.js"></script>
     <title>${title}</title>
 </head>
 <body>
@@ -39,7 +38,8 @@
                                             <li><a href="/product/add"><i class="fal fa-boxes-alt"></i>Товары</a></li>
                                         </ul>
                                     </li>
-                                <#else>
+                                    <#else>
+                                        не адммин
                                 </#if>
                                 <li><a href="#"><i class="far fa-list-alt"></i>Заказы</a></li>
                                 <li>
@@ -60,8 +60,8 @@
             <div class="section-header-middle-wrapper">
                 <a href="/"><div class="section-header-middle-wrapper-logo"></div></a>
                 <div class="section-header-middle-wrapper-search">
-                    <form action="" class="section-header-middle-wrapper-search-form">
-                        <input type="search" name="" placeholder="Поиск" class="section-header-middle-wrapper-search-form_input">
+                    <form action="/search" class="section-header-middle-wrapper-search-form">
+                        <input type="search" name="productName" placeholder="Поиск" class="section-header-middle-wrapper-search-form_input">
                         <input type="submit" value="Найти" class="section-header-middle-wrapper-search-form_button">
                     </form>
                 </div>
