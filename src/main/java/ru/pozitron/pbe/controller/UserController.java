@@ -86,15 +86,13 @@ public class UserController {
                                     @RequestParam(required = false) String number,
                                     Model model){
 
-        if (name != null) model.addAttribute("nameMessage",userService.updateUserName(user,name));
-        if (surname != null) model.addAttribute("surnameMessage",userService.updateUserSurname(user,surname));
-        if (username != null) model.addAttribute("usernameMessage",userService.updateUserUsername(user,username));
-        if (email != null) model.addAttribute("emailMessage",userService.updateUserEmail(user,email));
-        if (number != null) model.addAttribute("numberMessage",userService.updateUserNumber(user,number));
+        if (name != null && !name.equals(user.getName())) model.addAttribute("nameMessage",userService.updateUserName(user,name));
+        if (surname != null && !surname.equals(user.getSurname())) model.addAttribute("surnameMessage",userService.updateUserSurname(user,surname));
+        if (username != null && !username.equals(user.getUsername())) model.addAttribute("usernameMessage",userService.updateUserUsername(user,username));
+        if (email != null && !email.equals(user.getEmail())) model.addAttribute("emailMessage",userService.updateUserEmail(user,email));
+        if (number != null && !number.equals(user.getNumber())) model.addAttribute("numberMessage",userService.updateUserNumber(user,number));
         userRepository.save(user);
-        Iterable<Category> categories = categoryRepository.findAllByParentCategory(null);
         model.addAttribute("user",user);
-        model.addAttribute("categories",categories);
         return "userProfile";
     }
     @GetMapping("/profile/changeEmail/{code}")
