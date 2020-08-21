@@ -7,13 +7,12 @@ import ru.pozitron.pbe.domain.Product;
 
 @Service
 public class CartService {
-    public static boolean productContains(Cart cart, Product product){
-        if (cart.getOrderProducts().size() == 0) return false;
+    public boolean productContains(Cart cart, Product product){
         return cart.getOrderProducts().
                 stream().
                 anyMatch(orderProduct -> orderProduct.getProduct().equals(product));
     }
-    public static OrderProduct findOrderProductByProduct(Cart cart,Product product){
+    public OrderProduct findOrderProductByProduct(Cart cart,Product product){
         return cart.getOrderProducts().
                 stream().
                 filter(orderProduct -> orderProduct.getProduct().equals(product)).
