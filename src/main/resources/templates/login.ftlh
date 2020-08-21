@@ -13,6 +13,10 @@
         <div class="container-login-wrapper">
             <form class="container-login-wrapper-form" action="/login" method="post">
                 <span class="container-login-wrapper-form-title">Добро пожаловать</span>
+
+                <#if Session?? && Session.SPRING_SECURITY_LAST_EXCEPTION??>
+                    <div class="alertError">${Session.SPRING_SECURITY_LAST_EXCEPTION.message}</div>
+                </#if>
                 <div class="container-login-wrapper-form-email container-login-wrapper-form-input">
                     <input type="text" name="username" id="" placeholder="e-mail">
                 </div>
