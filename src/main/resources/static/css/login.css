@@ -382,6 +382,23 @@ input:focus:-ms-input-placeholder {
 }
 
 /* IE 10+ */
+.alertError {
+  position: relative;
+  width: 100%;
+  color: #721c24;
+  padding: 5px;
+  border-radius: 8px;
+  font-size: 0.8em;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.alertError ul li {
+  list-style: disc inside;
+  margin-top: 5px;
+  margin-left: 2px;
+}
+
 .container-login {
   width: 100%;
   min-height: 100vh;
