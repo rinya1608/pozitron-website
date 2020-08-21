@@ -6,8 +6,9 @@
         <div class="section-cartPage-title">
             Корзина
         </div>
-        <table class="section-cartPage-table">
-            <thead class="section-cartPage-table-head">
+        <#if cart?? && (cart.orderProducts?size > 0)>
+            <table class="section-cartPage-table">
+                <thead class="section-cartPage-table-head">
                 <tr class="section-cartPage-table-head-tr">
                     <th></th>
                     <th>название</th>
@@ -15,39 +16,49 @@
                     <th>цена</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody class="section-cartPage-table-body">
-                <#list orderProducts as orderProduct>
-                    <tr class="section-cartPage-table-body-tr">
+                </thead>
+                <tbody class="section-cartPage-table-body">
+
+                <#list cart.orderProducts as orderProduct>
+                    <tr id="productSection${orderProduct.id}" class="section-cartPage-table-body-tr">
                         <td><img src="http://wordpress.templatemela.com/woo/WCM05/WCM050109/wp-content/uploads/2019/01/12-1-274x274.jpg" alt=""></td>
                         <td><a href="#">${orderProduct.product.name}</a></td>
                         <td class="section-cartPage-table-body-tr-quantity">
-                            <div class="section-cartPage-table-body-tr-quantity-wrapper">
-                                <form action="">
-                                    <div id="button_minus" class="section-cartPage-table-body-tr-quantity-wrapper__minus">-</div>
-                                    <input id="input_number" class="section-cartPage-table-body-tr-quantity-wrapper__number" type="number" name="" value="${orderProduct.quantity}" min="1" max="${orderProduct.product.count}">
-                                    <div id="button_plus" class="section-cartPage-table-body-tr-quantity-wrapper__plus">+</div>
-                                </form>
+                            <div id="quantityBlock" class="section-cartPage-table-body-tr-quantity-wrapper">
+                                    <button id="button_minus${orderProduct.id}" class="section-cartPage-table-body-tr-quantity-wrapper__minus" name="${orderProduct.id}">-</button>
+                                    <input id="csrf" type="hidden" name="_csrf" value="${_csrf.token}" />
+                                    <input id="input_number${orderProduct.id}" class="section-cartPage-table-body-tr-quantity-wrapper__number" type="number" name="${orderProduct.id}" value="${orderProduct.getQuantity()}" min="1" max="${orderProduct.product.count}">
+                                    <span id="result${orderProduct.id}"></span>
+                                    <button id="button_plus${orderProduct.id}" class="section-cartPage-table-body-tr-quantity-wrapper__plus" name="${orderProduct.id}">+</button>
+                                    <input type="submit" id="submitSaveChange${orderProduct.id}" style="display:none;">
                             </div>
                         </td>
                         <td>
-                            <span>${orderProduct.product.price}<i class="fal fa-ruble-sign fa-sm"></i></span>
+                            <span>${orderProduct.product.priceWithDiscount!orderProduct.product.price!"0"}<i class="fal fa-ruble-sign fa-sm"></i></span>
                         </td>
-                        <td><i class="far fa-times"></i></td>
+                        <td>
+
+<#--                            <form id="cartDelProductForm${orderProduct.id}" name="${orderProduct.id}">-->
+                                <input id="csrf" type="hidden" name="_csrf" value="${_csrf.token}" />
+                                <button id="submitDelProduct${orderProduct.id}" name="${orderProduct.id}"><i class="far fa-times"></i></button>
+<#--                            </form>-->
+                        </td>
                     </tr>
                 </#list>
 
-            </tbody>
-            <tfoot class="section-cartPage-table-foot">
+                </tbody>
+                <tfoot class="section-cartPage-table-foot">
                 <tr class="section-cartPage-table-foot-tr">
                     <td></td>
                     <td></td>
                     <td></td>
-                    <th>Итог: 678<i class="far fa-ruble-sign"></i></th>
+                    <th>Итог: <span id="costAllProducts">${cart.getCostAllProducts()}</span><i class="far fa-ruble-sign"></i></th>
                     <td><input type="submit" value="Оформить заказ"></td>
                 </tr>
-            </tfoot>
-        </table>
+                </tfoot>
+            </table>
+        </#if>
+
     </div>
 </section>
 <!-- / cartPage -->
