@@ -13,21 +13,38 @@
         <div class="container-login-wrapper">
             <form class="container-login-wrapper-form" action="/registration" method="post">
                 <span class="container-login-wrapper-form-title">Регистрация</span>
-                ${message!""}
+
+                <#if message?? || validErrors??>
+                    <div class="alertError">
+                        <ul>
+
+                            <#if message??><li>${message}</li></#if>
+                            <#if validErrors??>
+                                <#list validErrors as error>
+                                    <li>${error}</li>
+                                </#list>
+                            </#if>
+
+                        </ul>
+                    </div>
+                </#if>
+
                 <div class="container-login-wrapper-form-name container-login-wrapper-form-input">
-                    <input type="text" name="name" id="" placeholder="Имя" required>
+                    <input type="text" name="name" id="" placeholder="Имя">
+                    <#if nameError??><span>${nameError}</span></#if>
                 </div>
                 <div class="container-login-wrapper-form-name container-login-wrapper-form-input">
                     <input type="text" name="surname" id="" placeholder="Фамилия">
                 </div>
                 <div class="container-login-wrapper-form-username container-login-wrapper-form-input">
-                    <input type="text" name="username" id="" placeholder="Логин" required>
+                    <input type="text" name="username" id="" placeholder="Логин">
                 </div>
+                <#if usernameError??><span>${usernameError}</span></#if>
                 <div class="container-login-wrapper-form-password container-login-wrapper-form-input">
-                    <input type="password" name="password" id="" placeholder="Пароль" required>
+                    <input type="password" name="password" id="" placeholder="Пароль">
                 </div>
                 <div class="container-login-wrapper-form-email container-login-wrapper-form-input">
-                    <input type="email" name="email" id="" placeholder="Адрес эл. почты" required>
+                    <input type="email" name="email" id="" placeholder="Адрес эл. почты">
                 </div>
                 <div class="container-login-wrapper-form-number container-login-wrapper-form-input">
                     <input type="text" name="number" id="" placeholder="Номер телефона">
