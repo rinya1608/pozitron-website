@@ -16,9 +16,9 @@ public class Product {
     private BigDecimal priceWithDiscount;
     private Double count;
     private String unit;
-    private String fotoname;
+    private String filename;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Category category;
 
     public Product() {
@@ -98,12 +98,12 @@ public class Product {
         this.unit = unit;
     }
 
-    public String getFotoname() {
-        return fotoname;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setFotoname(String fotoname) {
-        this.fotoname = fotoname;
+    public void setFilename(String fotoname) {
+        this.filename = fotoname;
     }
 
     public Category getCategory() {
@@ -117,13 +117,13 @@ public class Product {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Product)) return false;
         Product product = (Product) o;
-        return id.equals(product.id);
+        return getId() != null && Objects.equals(getId(), product.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getId().hashCode();
     }
 }
