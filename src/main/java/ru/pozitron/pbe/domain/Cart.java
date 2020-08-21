@@ -1,6 +1,7 @@
 package ru.pozitron.pbe.domain;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,9 +14,11 @@ public class Cart {
     private Long id;
     private LocalDateTime date;
     private CartStatus status;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<OrderProduct> orderProducts;
-
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private String name;
     private String number;
@@ -32,6 +35,18 @@ public class Cart {
     }
     public Cart(String name,String Number,String city,String street,String houseNumber,String comment){
 
+    }
+
+    public BigDecimal getCostAllProducts(){
+
+        return orderProducts
+                .stream()
+                .map(orderProduct ->
+                        (orderProduct.getProduct().getPriceWithDiscount() != null ?
+                                orderProduct.getProduct().getPriceWithDiscount().multiply(BigDecimal.valueOf(orderProduct.getQuantity())):
+                                orderProduct.getProduct().getPrice().multiply(BigDecimal.valueOf(orderProduct.getQuantity()))))
+                .reduce(BigDecimal::add)
+                .orElse(new BigDecimal(0));
     }
 
     public Long getId() {
@@ -64,6 +79,14 @@ public class Cart {
 
     public void setOrderProducts(Set<OrderProduct> products) {
         this.orderProducts = products;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {
