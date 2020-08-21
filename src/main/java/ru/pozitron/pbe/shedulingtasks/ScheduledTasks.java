@@ -24,9 +24,9 @@ public class ScheduledTasks {
         Iterable<Code> codes = codeRepository.findAll();
         for (Code code:
              codes) {
-            if (Math.abs(Duration.between(code.getDate(),DateNow).toSeconds()) >= 180){
+            if (Math.abs(Duration.between(code.getDate(),DateNow).toMinutes()) >= 3){
                 codeRepository.deleteById(code.getId());
-                log.info("between " + Math.abs(Duration.between(code.getDate(), DateNow).toSeconds()));
+                log.info("between " + Math.abs(Duration.between(code.getDate(), DateNow).toMinutes()));
             }
         }
 
