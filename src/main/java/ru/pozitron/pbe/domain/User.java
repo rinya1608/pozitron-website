@@ -1,9 +1,12 @@
 package ru.pozitron.pbe.domain;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -13,10 +16,18 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "Поле имя обязательно для заполнения")
+    @Length(min = 3,max = 20,message = "Длина имени должна быть не менее 2 символов и не более 20")
     private String name;
+    @Length(max = 20,message = "Длина фамилии должна быть не не более 20 символов")
     private String surname;
+    @NotBlank(message = "Поле логин обязательно для заполнения")
+    @Length(min = 3,max = 20,message = "Длина логина должна быть не менее 2 символов и не более 20")
     private String username;
+    @Email(message = "Не верный формат почты")
+    @NotBlank(message = "Поле адрес эл. почты обязательно для заполнения")
     private String email;
+    @NotBlank(message = "Поле пароль обязательно для заполнения")
     private String password;
     private String number;
 
@@ -29,7 +40,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToOne
+    @OneToOne(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Cart cart;
     @OneToOne
     private Order order;
