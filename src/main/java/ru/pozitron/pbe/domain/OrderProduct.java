@@ -1,6 +1,7 @@
 package ru.pozitron.pbe.domain;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 
@@ -9,7 +10,7 @@ public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Product product;
     private Integer quantity;
 
@@ -20,6 +21,7 @@ public class OrderProduct {
         this.product = product;
         this.quantity = quantity;
     }
+
     public Long getId() {
         return id;
     }
@@ -42,5 +44,20 @@ public class OrderProduct {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderProduct that = (OrderProduct) o;
+        return product.equals(that.product) &&
+                quantity.equals(that.quantity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(product, quantity);
     }
 }
