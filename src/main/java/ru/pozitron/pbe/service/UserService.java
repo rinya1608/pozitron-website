@@ -1,6 +1,7 @@
 package ru.pozitron.pbe.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,8 +24,13 @@ public class UserService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException,LockedException {
+        User user = userRepository.findByUsername(username);
+
+        if (user == null){
+            throw new LockedException("Логин/E-mail или пароль неверный");
+        }
+        return user;
     }
 
     public boolean addUser(User user){
