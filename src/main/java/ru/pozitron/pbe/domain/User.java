@@ -7,7 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,7 +21,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Поле имя обязательно для заполнения")
     @Length(min = 3,max = 20,message = "Длина имени должна быть не менее 2 символов и не более 20")
     private String name;
-    @Length(max = 20,message = "Длина фамилии должна быть не не более 20 символов")
+    @Length(max = 20,message = "Длина фамилии должна быть не более 20 символов")
     private String surname;
     @NotBlank(message = "Поле логин обязательно для заполнения")
     @Length(min = 3,max = 20,message = "Длина логина должна быть не менее 2 символов и не более 20")
@@ -29,6 +31,7 @@ public class User implements UserDetails {
     private String email;
     @NotBlank(message = "Поле пароль обязательно для заполнения")
     private String password;
+    @Pattern(regexp = "^$|^(\\+)?[0-9]{11}",message = "поле номер телефона должно содержать 11 цифр")
     private String number;
 
 
@@ -40,18 +43,25 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToOne(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Cart cart;
-    @OneToOne
-    private Order order;
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private List<Cart> carts;
 
     public User() {
     }
 
-
+    @Transient
     public boolean isAdmin(){
         return roles.contains(Role.ADMIN);
     }
+    @Transient
+    public Cart getCartInProcess(){
+        return getCarts()
+                .stream()
+                .filter(cart -> cart.getStatus().equals(CartStatus.IN_PROCESS))
+                .findFirst()
+                .orElse(null);
+    }
+
     public String getPassword() {
         return password;
     }
@@ -123,20 +133,12 @@ public class User implements UserDetails {
         this.surname = surname;
     }
 
-    public Cart getCart() {
-        return cart;
+    public List<Cart> getCarts() {
+        return carts;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 
     @Override
