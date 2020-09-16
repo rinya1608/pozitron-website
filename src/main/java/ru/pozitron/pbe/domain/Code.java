@@ -17,7 +17,7 @@ public class Code {
     @NotNull
     CodeType codeType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     User user;
 
     public Code() {
