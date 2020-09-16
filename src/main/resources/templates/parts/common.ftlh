@@ -11,6 +11,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="../../static/script/dropdown.js"></script>
     <script src="../../static/script/ajaxCart.js"></script>
+    <script src="../../static/script/ajaxOrder.js"></script>
     <title>${title}</title>
 </head>
 <body>
@@ -34,6 +35,7 @@
                                         <a href="#"><i class="far fa-user-crown"></i>Админ</a>
                                         <ul id="admin-list"class="section-header-top-wrapper-right-profile-droplist_admin-list section-header-top-wrapper-right-profile-droplist">
                                             <li><a href="/user"><i class="fal fa-users"></i>Пользователи</a></li>
+                                            <li><a href="/admin/carts"><i class="fal fa-users"></i>Лист заказов</a></li>
                                             <li><a href="/category/edit"><i class="fad fa-stream"></i>Категории</a></li>
                                             <li><a href="/product/add"><i class="fal fa-boxes-alt"></i>Товары</a></li>
                                         </ul>
