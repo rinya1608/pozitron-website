@@ -27,7 +27,7 @@
                             <div id="quantityBlock" class="section-cartPage-table-body-tr-quantity-wrapper">
                                     <button id="button_minus${orderProduct.id}" class="section-cartPage-table-body-tr-quantity-wrapper__minus" name="${orderProduct.id}">-</button>
                                     <input id="csrf" type="hidden" name="_csrf" value="${_csrf.token}" />
-                                    <input id="input_number${orderProduct.id}" class="section-cartPage-table-body-tr-quantity-wrapper__number" type="number" name="${orderProduct.id}" value="${orderProduct.getQuantity()}" min="1" max="${orderProduct.product.count}">
+                                    <input id="input_number${orderProduct.id}" class="section-cartPage-table-body-tr-quantity-wrapper__number" type="number" name="${orderProduct.id}" value="${orderProduct.getQuantity()}" min="1" max="${orderProduct.product.quantity}">
                                     <span id="result${orderProduct.id}"></span>
                                     <button id="button_plus${orderProduct.id}" class="section-cartPage-table-body-tr-quantity-wrapper__plus" name="${orderProduct.id}">+</button>
                                     <input type="submit" id="submitSaveChange${orderProduct.id}" style="display:none;">
@@ -53,7 +53,7 @@
                     <td></td>
                     <td></td>
                     <th>Итог: <span id="costAllProducts">${cart.getCostAllProducts()}</span><i class="far fa-ruble-sign"></i></th>
-                    <td><input type="submit" value="Оформить заказ"></td>
+                    <td><a href="/cart/registration">Оформить заказ</a></td>
                 </tr>
                 </tfoot>
             </table>
