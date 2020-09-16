@@ -11,10 +11,13 @@
                 <div class="section-productPage-wrapper-information-title" ><h1 id="productName">${product.name}</h1></div>
                 <div class="section-productPage-wrapper-information-category">Категория: <a>${product.category.parentCategory.name}</a></div>
                 <div class="section-productPage-wrapper-information-subcategory">Подкатегория: <a>${product.category.name}</a></div>
-                <div class="section-productPage-wrapper-information-inStock">В наличии: <span >${product.count} ${product.unit}</span></div>
+                <div class="section-productPage-wrapper-information-inStock">В наличии: <span >${product.quantity} ${product.unit}</span></div>
                 <div class="section-productPage-wrapper-information-price">
-                    <span class="section-productPage-wrapper-information-price_old">216<i class="fal fa-ruble-sign fa-sm"></i></span>
-                    ${product.price}<i class="fal fa-ruble-sign fa-sm"></i>
+                    <#if product.priceWithDiscount??>
+                        <span class="section-productPage-wrapper-information-price_old">${product.price}<i class="fal fa-ruble-sign fa-sm"></i></span>
+                    </#if>
+                    ${product.priceWithDiscount!product.price}<i class="fal fa-ruble-sign fa-sm"></i>
+
                 </div>
                 <div class="section-productPage-wrapper-information-description">
                     <p>
@@ -24,12 +27,12 @@
                 <div class="section-productPage-wrapper-information-quantity">
                     <form method="post" id="formAddProductToCartPage">
                         <div id="button_minus" class="section-productPage-wrapper-information-quantity__minus">-</div>
-                        <input id="input_number" class="section-productPage-wrapper-information-quantity__number" type="number" name="" value="1" min="1" max="${product.count}">
+                        <input id="input_number${product.id}" class="section-productPage-wrapper-information-quantity__number" type="number" name="" value="1" min="1" max="${product.quantity}">
                         <div id="button_plus" class="section-productPage-wrapper-information-quantity__plus">+</div>
                         <span id="spanProductCategoryId" style="display: none;">${product.category.id}</span>
                         <span id="spanProductId" style="display: none;">${product.id}</span>
                         <input type="hidden" id="csrf" name="_csrf" value="${_csrf.token}" />
-                        <input type="submit" value="В корзину" id="submitAddProductToCart" class="section-productPage-wrapper-information-quantity__button">
+                        <button type="submit" name="${product.id}" id="submitAddProductToCart" class="section-productPage-wrapper-information-quantity__button">В корзину</button>
                         <span id="result"></span>
                     </form>
                 </div>
