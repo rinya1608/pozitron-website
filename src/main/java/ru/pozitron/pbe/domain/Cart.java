@@ -14,39 +14,41 @@ public class Cart {
     private Long id;
     private LocalDateTime date;
     private CartStatus status;
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderProduct> orderProducts;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @OneToOne
+    ClientInfo clientInfo;
 
-    private String name;
-    private String number;
-    private String city;
-    private String street;
-    private String houseNumber;
-    private String comment;
 
     public Cart() {
     }
+
     public Cart(LocalDateTime date) {
         this.date = date;
         this.orderProducts = new HashSet<>();
-    }
-    public Cart(String name,String Number,String city,String street,String houseNumber,String comment){
-
+        this.setStatus(CartStatus.IN_PROCESS);
     }
 
-    public BigDecimal getCostAllProducts(){
+    @Transient
+    public BigDecimal getCostAllProducts() {
 
         return orderProducts
                 .stream()
                 .map(orderProduct ->
                         (orderProduct.getProduct().getPriceWithDiscount() != null ?
-                                orderProduct.getProduct().getPriceWithDiscount().multiply(BigDecimal.valueOf(orderProduct.getQuantity())):
+                                orderProduct.getProduct().getPriceWithDiscount().multiply(BigDecimal.valueOf(orderProduct.getQuantity())) :
                                 orderProduct.getProduct().getPrice().multiply(BigDecimal.valueOf(orderProduct.getQuantity()))))
                 .reduce(BigDecimal::add)
                 .orElse(new BigDecimal(0));
+    }
+
+    @PreRemove
+    void removeFromUser() {
+        System.out.println("deletefromuser");
+        user.getCarts().remove(this);
     }
 
     public Long getId() {
@@ -89,51 +91,12 @@ public class Cart {
         this.user = user;
     }
 
-    public String getName() {
-        return name;
+    public ClientInfo getClientInfo() {
+        return clientInfo;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setClientInfo(ClientInfo clientInfo) {
+        this.clientInfo = clientInfo;
     }
 }
+
