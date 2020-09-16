@@ -4,7 +4,7 @@
     <input type="text" name="productName" placeholder="название" required>
     <input type="text" name="description" placeholder="описание" required>
     <input type="text" name="price" placeholder="цена" required>
-    <input type="text" name="count" placeholder="кол-во" required>
+    <input type="text" name="quantity" placeholder="кол-во" required>
     <input type="text" name="unit" placeholder="измерение" required>
     <input type="text" name="discountPercent" placeholder="скидка" required>
     <input type="file" name="file">
