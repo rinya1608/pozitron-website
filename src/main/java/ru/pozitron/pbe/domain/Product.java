@@ -14,7 +14,7 @@ public class Product {
     private BigDecimal price;
     private Integer discountPercent;
     private BigDecimal priceWithDiscount;
-    private Double count;
+    private Integer quantity;
     private String unit;
     private String filename;
 
@@ -26,11 +26,11 @@ public class Product {
 
 
 
-    public Product(String name, String description, BigDecimal price, Double count, String unit, Category category) {
+    public Product(String name, String description, BigDecimal price, Integer quantity, String unit, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.count = count;
+        this.quantity = quantity;
         this.unit = unit;
         this.category = category;
     }
@@ -82,12 +82,12 @@ public class Product {
         this.priceWithDiscount = priceWithDiscount;
     }
 
-    public Double getCount() {
-        return count;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setCount(Double count) {
-        this.count = count;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public String getUnit() {
