@@ -47,6 +47,23 @@ button{
     outline: none;
     border: none;
 }
+.alertError{
+    position: relative;
+    width: 100%;
+    color: #721c24;
+    padding: 5px;
+    border-radius: 8px;
+    font-size: 0.8em;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    ul{
+        li{
+            list-style: disc inside;
+            margin-top: 5px;
+            margin-left: 2px;
+        }
+    }
+}
 // === / Common ===
 
 // === header ===
@@ -519,7 +536,10 @@ button{
                         position: absolute;
                     }
                     &-img{
-                        width: 100%;
+                        object-fit: cover;
+                        width: 205px;
+                        height: 205px;
+
                         display: block;
                     }
                 }
@@ -837,7 +857,7 @@ button{
                 td:last-child{
                     border-right: 1px solid #ededed;
                     padding: 10px;
-                    input{
+                    a{
                         padding: 12px 24px;
                         outline: none;
                         cursor: pointer;
@@ -846,7 +866,7 @@ button{
                         border-radius: 25px;
                         color: white;
                     }
-                    input:hover{
+                    a:hover{
                         background: black;
                     }
                 }
@@ -986,6 +1006,175 @@ button{
     }
 }
 // === / profile ===
+
+
+// === orderPage ===
+.section-orderPage{
+    .section-inner{
+        margin-top: 50px;
+        
+        
+    }
+    
+    &-data{
+        min-height: 600px;
+        width: 100%;
+        background: white;
+        border-radius:8px;
+        border: 1px solid #f2f2f2;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+        padding-top: 50px;
+        padding-left: 100px;
+        &-activateMessage{
+            span{
+                color:#153C6F;
+            }
+            form{
+                display: inline-block;
+                button{
+                    cursor: pointer;
+                    background: none;
+                    color:#ab0810;
+                }
+                button:hover{
+                    color:#153C6F; 
+                }
+            }
+        }
+        &-form{
+            width: 300px;
+            &-item{
+                margin-top:20px;
+                display: inline-block;
+                position: relative;
+                width: 100%;
+                
+                input{
+                    border: none;
+                    height: 60px;
+                    width: 100%;
+                    background: #fff;
+                    border: 1px solid #e5e5e5;
+                    border-radius: 8px;
+                    padding-left:15px;
+                    outline:none;
+                }
+                textarea{
+                    border: none;
+                    height: 150px;
+                    width: 100%;
+                    background: #fff;
+                    border: 1px solid #e5e5e5;
+                    border-radius: 8px;
+                    padding-top: 20px;
+                    padding-left:15px;
+                    outline:none;
+                }
+                label{
+                    position: absolute;
+                    pointer-events: none;
+                    left: 15px;
+                    top: 13px;
+                    line-height: 40px;
+                    transition: .3s;
+                    color: #8c8c8c;
+                }
+                input:focus~label,
+                input:not(:focus):valid:not(:placeholder-shown)~label,
+                textarea:focus~label,
+                textarea:not(:focus):valid:not(:placeholder-shown)~label {
+                    top: -10px;
+                    font-size: 14px;
+                }
+                input:focus,textarea:focus{
+                    box-shadow: 0 9px 28px #d9d9d9;
+                }
+                input:hover~label,textarea:hover~label{
+                    color: black;
+                }
+            }
+            &-changepass{
+                margin-top: 10px;
+                color: #153C6F;
+            }
+            button{
+                margin-top:20px;
+                width: 134px;
+                height: 64px;
+                outline: none;
+                cursor: pointer;
+                border: none;
+                background: #ab0810;
+                border-radius: 8px;
+                color: white;
+            }
+        }
+    }
+}
+// === / orderPage ===
+
+// === orderList ===
+
+.section-orderList{
+    &-block{
+        width: 100%;
+        background: white;
+        border-radius:8px;
+        border: 1px solid #f2f2f2;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+        padding-top: 5px;
+        padding-left: 100px;
+        margin-top: 10px;
+
+        &-status{
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        &-button{
+            width: 134px;
+            height: 20px;
+            outline: none;
+            cursor: pointer;
+            border: none;
+            background: #ab0810;
+            border-radius: 8px;
+            color: white;
+        }
+        &-table{
+            margin-top:20px;
+            table-layout: fixed;
+            width: 100%;
+            border-spacing: 0px;
+            border-collapse: collapse;
+            &-head{
+                
+                &-tr{
+                    background: white;
+                    height: 50px;
+                    th{
+                        text-align: center;
+                        border-bottom: 1px solid #ededed;
+                        
+                    }
+                }
+            }
+            &-body{
+                &-tr{
+                    background: white;
+                    td{
+                        padding: 10px 0px;
+                        text-align: center;
+                        color: #808080;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// === / orderList ===
+
 // === footer ===
 .section-footer{
     margin-top:20px;
