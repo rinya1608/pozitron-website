@@ -66,13 +66,13 @@ public class ProductController {
                               @RequestParam String description,
                               @RequestParam BigDecimal price,
                               @RequestParam Integer discountPercent,
-                              @RequestParam Double count,
+                              @RequestParam Integer quantity,
                               @RequestParam String unit,
                               @RequestParam("categoryId")  Category category,
                               @RequestParam("file") MultipartFile file,
                               Model model){
 
-        Product product = new Product(productName,description,price,count,unit,category);
+        Product product = new Product(productName,description,price,quantity,unit,category);
         if (!file.isEmpty()) {
             product.setFilename(productService.uploadFile(file,uploadPath));
         }
