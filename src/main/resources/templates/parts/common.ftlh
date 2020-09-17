@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../static/css/fontawesome/css/all.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="../../static/script/dropdown.js"></script>
+    <script src="../../static/script/quantity.js"></script>
     <script src="../../static/script/ajaxCart.js"></script>
     <script src="../../static/script/ajaxOrder.js"></script>
     <title>${title}</title>
@@ -40,8 +41,6 @@
                                             <li><a href="/product/add"><i class="fal fa-boxes-alt"></i>Товары</a></li>
                                         </ul>
                                     </li>
-                                    <#else>
-                                        не адммин
                                 </#if>
                                 <li><a href="#"><i class="far fa-list-alt"></i>Заказы</a></li>
                                 <li>
