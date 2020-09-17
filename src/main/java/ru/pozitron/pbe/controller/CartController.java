@@ -46,7 +46,7 @@ public class CartController {
         else model.addAttribute("messageCartIsEmpty","В корзине нету товаров");
         return "cartPage";
     }
-    @PostMapping("/cart/add")
+    @PostMapping(value={"/","/cart/add"})
     @ResponseBody
     public ResponseEntity<?> addProductToCart(@AuthenticationPrincipal User user,
                                               @RequestBody ProductCriteria productCriteria
