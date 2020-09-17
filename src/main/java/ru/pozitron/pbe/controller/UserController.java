@@ -69,10 +69,7 @@ public class UserController {
     }
     @PostMapping("/profile/activate")
     public String sendActivateCode(@AuthenticationPrincipal User user,Model model){
-        if (!userService.resendActivateCode(user)){
-            model.addAttribute("messageActivateCode","Попробуйте повторить через пару минут");
-            return "redirect:/profile";
-        }
+        userService.resendActivateCode(user);
         model.addAttribute("message","На указанный вами e-mail адрес отправлена инструкция по активации аккаунта");
         return "messagePage";
     }
