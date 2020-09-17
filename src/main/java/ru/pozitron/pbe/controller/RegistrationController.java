@@ -7,7 +7,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.pozitron.pbe.domain.Code;
 import ru.pozitron.pbe.domain.User;
+import ru.pozitron.pbe.repository.CodeRepository;
 import ru.pozitron.pbe.service.UserService;
 
 import javax.validation.Valid;
@@ -17,6 +19,8 @@ import java.util.Map;
 public class RegistrationController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private CodeRepository codeRepository;
     @GetMapping("/registration")
     public String registration(){
         return "registration";
@@ -63,11 +67,21 @@ public class RegistrationController {
 
     @PostMapping("/recoveryPassword")
     public String recoveryPassword(Model model,String email){
-        if (userService.recoveryPassword(email)){
-            model.addAttribute("message","Вам на почту отправлено сообщение с новым паролем");
+        if (userService.createCodeAndSendMessageForPasswordRecovery(email)){
+            model.addAttribute("message","Вам на почту отправлено сообщение c инструкциями");
            return "messagePage";
         }
         model.addAttribute("message","аккаунт не был активирован или аккаунта с таким e-mail адресом не существует");
         return "recoveryPass";
+    }
+    @GetMapping("/recoveryPassword/{code}")
+    public String getRecoveryPasswordMessage(@PathVariable String code,Model model){
+        Code codeForRecovery = codeRepository.findByValue(code);
+        if( codeForRecovery != null){
+            model.addAttribute("message","Ваш новый пароль"
+                    + userService.setAndGetUUIDPassword(codeForRecovery.getUser()));
+        }
+        else model.addAttribute("message","ошибка");
+        return "messagePage";
     }
 }
