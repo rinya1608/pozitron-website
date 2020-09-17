@@ -5,22 +5,30 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.pozitron.pbe.domain.*;
+import org.springframework.transaction.annotation.Transactional;
+import ru.pozitron.pbe.domain.Code;
+import ru.pozitron.pbe.domain.CodeType;
+import ru.pozitron.pbe.domain.Role;
+import ru.pozitron.pbe.domain.User;
 import ru.pozitron.pbe.repository.CodeRepository;
 import ru.pozitron.pbe.repository.UserRepository;
 
+import javax.mail.MessagingException;
 import java.util.Collections;
 import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    MailSenderService mailSenderService;
+    private MailSenderService mailSenderService;
     @Autowired
-    CodeRepository codeRepository;
+    private CodeRepository codeRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -40,20 +48,21 @@ public class UserService implements UserDetailsService {
         }
         user.setRoles(Collections.singleton(Role.USER));
         Code code = new Code(user, CodeType.ACTIVATE_EMAIL);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         codeRepository.save(code);
         sendMessageForActivateUser(user);
 
         return true;
     }
-    public boolean resendActivateCode(User user){
+    @Transactional
+    public void resendActivateCode(User user){
         if(codeRepository.findByUserAndCodeTypeAndValueNotNull(user,CodeType.ACTIVATE_EMAIL) != null){
-            return false;
+            codeRepository.deleteByUserAndCodeType(user,CodeType.ACTIVATE_EMAIL);
         }
         Code code = new Code(user, CodeType.ACTIVATE_EMAIL);
         codeRepository.save(code);
         sendMessageForActivateUser(user);
-        return true;
     }
     public String updateUserEmail(User user,String email) {
         if (!email.isEmpty() && !email.equals(user.getEmail())) {
@@ -116,8 +125,9 @@ public class UserService implements UserDetailsService {
 
     public String updatePassword(User user,String oldPassword,String newPassword){
         if (!oldPassword.isEmpty() && !newPassword.isEmpty() && user.isActive()){
-            if (oldPassword.equals(user.getPassword())){
-                user.setPassword(newPassword);
+            if (passwordEncoder.matches(oldPassword,user.getPassword())){
+                user.setPassword(passwordEncoder.encode(newPassword));
+                userRepository.save(user);
             }
             else{
                 return "Старый пароль был введен не верно";
@@ -136,45 +146,71 @@ public class UserService implements UserDetailsService {
         }
         return "";
     }
-    public boolean recoveryPassword(String email){
+    public boolean createCodeAndSendMessageForPasswordRecovery(String email){
         User user = userRepository.findByEmail(email);
         if (user != null && user.isActive()){
-            user.setPassword(UUID.randomUUID().toString());
-            sendMessageForRecoveryPassword(user);
+            Code code;
+            if (codeRepository.findByUserAndCodeType(user,CodeType.RECOVERY_PASSWORD) != null){
+                code = codeRepository.findByUserAndCodeType(user,CodeType.RECOVERY_PASSWORD);
+            }
+            else{
+                code = new Code(user,CodeType.RECOVERY_PASSWORD);
+                codeRepository.save(code);
+            }
+            sendMessageForRecoveryPassword(user,code);
             return true;
         }
         return false;
     }
-    public void sendMessageForRecoveryPassword(User user){
+    public String setAndGetUUIDPassword(User user){
+        String newPass = UUID.randomUUID().toString();
+        user.setPassword(passwordEncoder.encode(newPass));
+        userRepository.save(user);
+        return newPass;
+    }
+    public void sendMessageForRecoveryPassword(User user,Code code){
         String message = String.format("Здравствуйте, %s! \n" +
-                        "Ваш новый пароль %s \n" +
-                        "Сменить его вы можете в своем профиле" +
-                        "Вы получили это письмо, потому что с вашего аккаунта поступил запрос на смену восстановления аккаунта \n",
+                        "Вы получили это письмо, потому что с вашего аккаунта поступил запрос на восстановление аккаунта \n"+
+                        "перейдите по ссылке для получения нового пароля <a href=\"http://localhost:8080/recoveryPassword/%s\"></a>",
                 user.getName(),
-                user.getPassword()
+                code.getValue()
         );
-        mailSenderService.send(user.getEmail(),"Восстановление доступа к аккаунту",message);
+        try {
+            mailSenderService.sendMimeMessage(user.getEmail(),"Восстановление доступа к аккаунту",message);
+        }
+        catch (MessagingException messagingException){
+            messagingException.printStackTrace();
+        }
+
     }
 
     public void sendMessageForChangeEmail(User user){
         String message = String.format("Здравствуйте, %s! \n" +
                         "Перейдите по ссылке для смены e-mail адреса \n"+
-                        "http://localhost:8080/user/profile/changeEmail/%s \n" +
+                        "<a href=\"http://localhost:8080/user/profile/changeEmail/%s\">ссылка</a> \n" +
                         "Вы получили это письмо, потому что с вашего аккаунта поступил запрос на смену e-mail адреса \n",
                 user.getName(),
                 codeRepository.findByUserAndCodeTypeAndValueNotNull(user, CodeType.CHANGE_EMAIL).getValue()
         );
-        mailSenderService.send(user.getEmail(),"Смена e-mail адреса Позитрон",message);
+        try {
+            mailSenderService.sendMimeMessage(user.getEmail(),"Смена e-mail адреса Позитрон",message);
+        } catch (MessagingException messagingException) {
+            messagingException.printStackTrace();
+        }
     }
     public void sendMessageForActivateUser(User user){
         String message = String.format("Здравствуйте, %s! \n" +
                         "Перейдите по ссылке для завершения регистрации и подтверждения e-mail адреса \n"+
-                        "http://localhost:8080/activate/%s \n" +
+                        "<a href=\"http://localhost:8080/activate/%s\">ссылка</a> \n" +
                         "Вы получили это письмо, потому что зарегистрировали аккаунт на сайте pbe.pozitron.ru",
                 user.getName(),
                 codeRepository.findByUserAndCodeTypeAndValueNotNull(user, CodeType.ACTIVATE_EMAIL).getValue()
         );
-        mailSenderService.send(user.getEmail(),"Регистрация учетной записи Позитрон",message);
+        try {
+            mailSenderService.sendMimeMessage(user.getEmail(),"Регистрация учетной записи Позитрон",message);
+        } catch (MessagingException messagingException) {
+            messagingException.printStackTrace();
+        }
     }
     public boolean checkCodeAndActivateUser(String codeValue) {
         Code code = codeRepository.findByValue(codeValue);
