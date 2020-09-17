@@ -66,11 +66,10 @@
                             <input type="hidden" id="csrf" name="_csrf" value="${_csrf.token}" />
                             <input id="input_number${product.id}" type="hidden" value="1">
                             <span id="result${product.id}"></span>
-                            <input type="submit" value="Купить" id="submitAddProductToCart${product.id}" class="section-product-table-card-bottom-buy">
-                            <span id="spanProductCategoryId${product.id}" style="display: none;">${product.category.id}</span>
+                            <button type="submit" name="${product.id}" id="submitAddProductToCart" class="section-product-table-card-bottom-buy">Купить</button>
+                            <span id="spanProductCategoryId" style="display: none;">${product.category.id}</span>
                         </div>
                     </form>
-
                 </#list>
             </div>
         </div>
