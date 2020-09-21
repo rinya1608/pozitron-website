@@ -5,7 +5,11 @@
     <div class="section-inner">
         <div class="section-productPage-wrapper">
             <div class="section-productPage-wrapper-img">
-                <img src="http://wordpress.templatemela.com/woo/WCM05/WCM050109/wp-content/uploads/2019/01/12-1-274x274.jpg" alt="">
+                <#if product.filename??>
+                    <img src="/uploads/${product.filename}" alt="">
+                <#else>
+                    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fneuronsk.ru%2Fservices%2Four_destinations%2Fexamination_and_treatment%2Fpolyclinic-department.php%3Fsphrase_id%3D4075&psig=AOvVaw0cmO_PK2yiQ7m_SKxoK7xX&ust=1600691455181000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDh0r_e9-sCFQAAAAAdAAAAABAD" alt="">
+                </#if>
             </div>
             <div class="section-productPage-wrapper-information">
                 <div class="section-productPage-wrapper-information-title" ><h1 id="productName">${product.name}</h1></div>
