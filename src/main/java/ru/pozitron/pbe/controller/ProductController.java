@@ -1,8 +1,8 @@
 package ru.pozitron.pbe.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,22 +17,23 @@ import ru.pozitron.pbe.domain.Category;
 import ru.pozitron.pbe.domain.Product;
 import ru.pozitron.pbe.repository.CategoryRepository;
 import ru.pozitron.pbe.repository.ProductRepository;
-
-import org.springframework.data.domain.Pageable;
 import ru.pozitron.pbe.service.ProductService;
 
 import java.math.BigDecimal;
 
 @Controller
 public class ProductController {
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private ProductService productService;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final ProductService productService;
     @Value("${upload.path}")
     private String uploadPath;
+
+    public ProductController(ProductRepository productRepository, CategoryRepository categoryRepository, ProductService productService) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+        this.productService = productService;
+    }
 
     @GetMapping("products/{category}")
     public String viewProductList(@PathVariable Category category,
@@ -63,9 +64,9 @@ public class ProductController {
     @PostMapping("/product/add")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String productSave(@RequestParam String productName,
-                              @RequestParam String description,
+                              @RequestParam(required = false) String description,
                               @RequestParam BigDecimal price,
-                              @RequestParam Integer discountPercent,
+                              @RequestParam(required = false) Integer discountPercent,
                               @RequestParam Integer quantity,
                               @RequestParam String unit,
                               @RequestParam("categoryId")  Category category,
