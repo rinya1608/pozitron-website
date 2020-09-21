@@ -1,6 +1,5 @@
 package ru.pozitron.pbe.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,10 +16,14 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CodeRepository codeRepository;
+    private final UserService userService;
+    private final CodeRepository codeRepository;
+
+    public RegistrationController(UserService userService, CodeRepository codeRepository) {
+        this.userService = userService;
+        this.codeRepository = codeRepository;
+    }
+
     @GetMapping("/registration")
     public String registration(){
         return "registration";
