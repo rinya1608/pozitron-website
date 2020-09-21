@@ -13,34 +13,56 @@
                                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
                                 <button type="submit">активировать</button>
                             </form>
-                            <span>${messageActivateCode!}</span>
+
                         </div>
+                </#if>
+                <#if validErrors??>
+                    <div class="alertError">
+                        <ul>
+
+                            <#if message??><li>${message}</li></#if>
+                            <#if validErrors??>
+                                <#list validErrors as error>
+                                    <li>${error}</li>
+                                </#list>
+                            </#if>
+
+                        </ul>
+                    </div>
+                </#if>
+                <#if emailMessage??>
+                    <div class="message">
+                        <ul>
+                            <#if emailMessage??><li>${emailMessage}</li></#if>
+
+                        </ul>
+                    </div>
                 </#if>
                 <form method="POST" action="/user/profile" class="section-profile-data-form">
                     <div class="section-profile-data-form-item">
                         <input type="text" name="name" value="${user.name!}" placeholder=" ">
                         <label>Имя</label>
-                        <span style="color:#ab0810;">${nameMessage!}</span>
+
                     </div>
                     <div class="section-profile-data-form-item">
                         <input type="text" name="surname" value="${user.surname!}" placeholder=" ">
                         <label>Фамилия</label>
-                        <span style="color:#ab0810;">${surnameMessage!}</span>
+
                     </div>
                     <div class="section-profile-data-form-item">
                         <input type="text" name="username" value="${user.username!}" placeholder=" ">
                         <label>Логин</label>
-                        <span style="color:#ab0810;">${usernameMessage!}</span>
+
                     </div>
                     <div class="section-profile-data-form-item">
                         <input type="text" name="email" value="${user.email!}" placeholder=" ">
                         <label>Email</label>
-                        <span style="color:#ab0810;">${emailMessage!}</span>
+
                     </div>
                     <div class="section-profile-data-form-item">
                         <input type="text" name = "number" value="${user.number!}" placeholder=" ">
                         <label>Телефон</label>
-                        <span style="color:#ab0810;">${numberMessage!}</span>
+
                     </div>
                     <div class="section-profile-data-form-changepass"><a href="/user/profile/changePassword">сменить пароль</a></div>
                     <input type="hidden" name="_csrf" value="${_csrf.token}" />
