@@ -1,6 +1,5 @@
 package ru.pozitron.pbe.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,12 +18,16 @@ import java.util.ArrayList;
 @Controller
 @ControllerAdvice
 public class MainController {
-    @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
-    ProductRepository productRepository;
-    @Autowired
-    ProductService productService;
+
+    private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final ProductService productService;
+
+    public MainController(CategoryRepository categoryRepository, ProductRepository productRepository, ProductService productService) {
+        this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
+        this.productService = productService;
+    }
 
     @ModelAttribute("mainCategories")
     public Iterable<Category> Category(){
