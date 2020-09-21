@@ -6,19 +6,19 @@
         <div class="section-slider-wrapper">
             <div class="section-slider-wrapper-item" style="background: url(https://images.wallpaperscraft.ru/image/solntse_skaly_pliazh_168872_1600x900.jpg) 100% 100% no-repeat;background-size: 100% auto;">
                 <div>
-                    <h1>Стиралка lg 553</h1>
+                    <h1>слайд 1</h1>
                     <a>Заказать сейчас</a>
                 </div>
             </div>
             <div class="section-slider-wrapper-item" style="background: url(https://images.wallpaperscraft.ru/image/drakon_roga_krylia_168864_1600x900.jpg) 100% 100% no-repeat;background-size: 100% auto ;">
                 <div>
-                    <h1>Стиралка lg 554</h1>
+                    <h1>слайд 2</h1>
                     <a>Заказать сейчас</a>
                 </div>
             </div>
             <div class="section-slider-wrapper-item" style="background: url(https://images.wallpaperscraft.ru/image/chasy_vintazh_vremia_168856_1600x900.jpg) 100% 100% no-repeat;background-size: 100% auto;">
                 <div>
-                    <h1>Стиралка lg 555</h1>
+                    <h1>слайд 3</h1>
                     <a>Заказать сейчас</a>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                                 <#if product.filename??>
                                     <img src="/uploads/${product.filename}" alt="" class="section-product-table-card-wrapper-imageLink-img">
                                 <#else>
-                                    <img src="http://wordpress.templatemela.com/woo/WCM05/WCM050109/wp-content/uploads/2019/01/12-1-274x274.jpg" alt="" class="section-product-table-card-wrapper-imageLink-img">
+                                    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fneuronsk.ru%2Fservices%2Four_destinations%2Fexamination_and_treatment%2Fpolyclinic-department.php%3Fsphrase_id%3D4075&psig=AOvVaw0cmO_PK2yiQ7m_SKxoK7xX&ust=1600691455181000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDh0r_e9-sCFQAAAAAdAAAAABAD" alt="" class="section-product-table-card-wrapper-imageLink-img">
                                 </#if>
                             </a>
                             <div class="section-product-table-card-wrapper-name"><a href="#" id="productName${product.id}">${product.name}</a></div>
