@@ -42,7 +42,7 @@
                                         </ul>
                                     </li>
                                 </#if>
-                                <li><a href="#"><i class="far fa-list-alt"></i>Заказы</a></li>
+                                <li><a href="/orders"><i class="far fa-list-alt"></i>Заказы</a></li>
                                 <li>
                                     <form action="/logout" method="post">
                                         <input type="hidden" name="_csrf" value="${_csrf.token}">
@@ -67,7 +67,7 @@
                     </form>
                 </div>
                 <div class="section-header-middle-wrapper-icon">
-                    <span><i class="far fa-shopping-cart"></i></span>
+                    <span><a href="/cart" style="color: black"><i class="far fa-shopping-cart"></i></a></span>
                 </div>
             </div>
         </div>
