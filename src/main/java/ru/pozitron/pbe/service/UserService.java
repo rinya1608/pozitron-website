@@ -1,6 +1,6 @@
 package ru.pozitron.pbe.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,14 +21,20 @@ import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private MailSenderService mailSenderService;
-    @Autowired
-    private CodeRepository codeRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final MailSenderService mailSenderService;
+    private final CodeRepository codeRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Value("${hostname}")
+    private String hostname;
+
+    public UserService(UserRepository userRepository, MailSenderService mailSenderService, CodeRepository codeRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.mailSenderService = mailSenderService;
+        this.codeRepository = codeRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 
     @Override
@@ -85,67 +91,23 @@ public class UserService implements UserDetailsService {
         return "";
     }
 
-    public String updateUserName(User user,String name){
-        if (!name.isEmpty() && user.isActive() && !name.equals(user.getName())){
-            user.setName(name);
-            return "Имя успешно изменено";
-        }
-        else if (!user.isActive() && !name.equals(user.getName())){
-            return "Активируйте свою почту";
-        }
-        return "";
-    }
-    public String updateUserSurname(User user,String surname){
-        if (!surname.isEmpty() && user.isActive() && !surname.equals(user.getSurname())){
-            user.setSurname(surname);
-            return "Фамилия успешно изменена";
-        }
-        else if (!user.isActive() && !surname.equals(user.getSurname())){
-            return "Активируйте свою почту";
-        }
-        return "";
-    }
 
-    public String updateUserUsername(User user,String username){
-        if (!username.isEmpty() &&
-                user.isActive() &&
-                userRepository.findByUsernameLike(username) == null &&
-                !username.equals(user.getUsername())){
-            user.setUsername(username);
-            return "Логин успешно изменен";
-        }
-        else if (!user.isActive() &&
-                !username.equals(user.getUsername())) return "Активируйте свою почту";
-        else if (userRepository.findByUsernameLike(username) != null &&
-                !username.equals(user.getUsername())){
-            return "Пользователь с таким логином уже существует";
-        }
-        return "";
-    }
 
-    public String updatePassword(User user,String oldPassword,String newPassword){
+    public boolean updatePassword(User user,String oldPassword,String newPassword){
         if (!oldPassword.isEmpty() && !newPassword.isEmpty() && user.isActive()){
             if (passwordEncoder.matches(oldPassword,user.getPassword())){
                 user.setPassword(passwordEncoder.encode(newPassword));
                 userRepository.save(user);
+                return true;
             }
             else{
-                return "Старый пароль был введен не верно";
+                return false;
             }
         }
-        else if (!user.isActive()) return "Для смены пароля активируйте аккаунт";
-        return "";
+        else return user.isActive();
+
     }
-    public String updateUserNumber(User user,String number){
-        if (!number.isEmpty() && user.isActive() && !number.equals(user.getNumber())){
-            user.setNumber(number);
-            return "Номер успешно изменен";
-        }
-        else if (!user.isActive() && !number.equals(user.getNumber())){
-            return "Активируйте свою почту";
-        }
-        return "";
-    }
+
     public boolean createCodeAndSendMessageForPasswordRecovery(String email){
         User user = userRepository.findByEmail(email);
         if (user != null && user.isActive()){
@@ -171,7 +133,7 @@ public class UserService implements UserDetailsService {
     public void sendMessageForRecoveryPassword(User user,Code code){
         String message = String.format("Здравствуйте, %s! \n" +
                         "Вы получили это письмо, потому что с вашего аккаунта поступил запрос на восстановление аккаунта \n"+
-                        "перейдите по ссылке для получения нового пароля <a href=\"http://localhost:8080/recoveryPassword/%s\"></a>",
+                        "перейдите по ссылке для получения нового пароля <a href=\"http://"+hostname+"/recoveryPassword/%s\">ссылка</a>",
                 user.getName(),
                 code.getValue()
         );
@@ -187,7 +149,7 @@ public class UserService implements UserDetailsService {
     public void sendMessageForChangeEmail(User user){
         String message = String.format("Здравствуйте, %s! \n" +
                         "Перейдите по ссылке для смены e-mail адреса \n"+
-                        "<a href=\"http://localhost:8080/user/profile/changeEmail/%s\">ссылка</a> \n" +
+                        "<a href=\"http://"+hostname+"/user/profile/changeEmail/%s\">ссылка</a> \n" +
                         "Вы получили это письмо, потому что с вашего аккаунта поступил запрос на смену e-mail адреса \n",
                 user.getName(),
                 codeRepository.findByUserAndCodeTypeAndValueNotNull(user, CodeType.CHANGE_EMAIL).getValue()
@@ -201,8 +163,8 @@ public class UserService implements UserDetailsService {
     public void sendMessageForActivateUser(User user){
         String message = String.format("Здравствуйте, %s! \n" +
                         "Перейдите по ссылке для завершения регистрации и подтверждения e-mail адреса \n"+
-                        "<a href=\"http://localhost:8080/activate/%s\">ссылка</a> \n" +
-                        "Вы получили это письмо, потому что зарегистрировали аккаунт на сайте pbe.pozitron.ru",
+                        "<a href=\"http://"+hostname+"/activate/%s\">ссылка</a> \n" +
+                        "Вы получили это письмо, потому что зарегистрировали аккаунт на сайте " + hostname,
                 user.getName(),
                 codeRepository.findByUserAndCodeTypeAndValueNotNull(user, CodeType.ACTIVATE_EMAIL).getValue()
         );
