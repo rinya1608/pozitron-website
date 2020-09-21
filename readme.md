@@ -1,6 +1,6 @@
-#Spring Boot WebApp
+# Spring Boot WebApp
 
-###About the example
+### About the example
 
 - Java 8
 - Spring Boot
