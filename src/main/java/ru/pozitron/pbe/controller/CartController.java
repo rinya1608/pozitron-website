@@ -1,8 +1,8 @@
 package ru.pozitron.pbe.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,18 +21,27 @@ import java.util.stream.Collectors;
 
 @Controller
 public class CartController {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private ClientInfoRepository clientInfoRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private OrderProductRepository orderProductRepository;
-    @Autowired
-    private CartService cartService;
+    private final UserRepository userRepository;
+    private final CartRepository cartRepository;
+    private final ClientInfoRepository clientInfoRepository;
+    private final ProductRepository productRepository;
+    private final OrderProductRepository orderProductRepository;
+    private final CartService cartService;
+
+    public CartController(UserRepository userRepository,
+                          CartRepository cartRepository,
+                          ClientInfoRepository clientInfoRepository,
+                          ProductRepository productRepository,
+                          OrderProductRepository orderProductRepository,
+                          CartService cartService) {
+
+        this.userRepository = userRepository;
+        this.cartRepository = cartRepository;
+        this.clientInfoRepository = clientInfoRepository;
+        this.productRepository = productRepository;
+        this.orderProductRepository = orderProductRepository;
+        this.cartService = cartService;
+    }
 
     @GetMapping("/cart")
     public String ProductList(@AuthenticationPrincipal User user, Model model){
@@ -133,6 +142,7 @@ public class CartController {
         return "userOrderList";
     }
     @GetMapping("/admin/carts")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String viewAdminOrderList(Model model){
         ArrayList<Cart> carts = cartRepository.findByStatusIn(Arrays.asList(CartStatus.NOT_CONFIRMED,
                 CartStatus.CONFIRMED,
