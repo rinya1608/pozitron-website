@@ -18,7 +18,7 @@
                     <div class="alertError">${Session.SPRING_SECURITY_LAST_EXCEPTION.message}</div>
                 </#if>
                 <div class="container-login-wrapper-form-email container-login-wrapper-form-input">
-                    <input type="text" name="username" id="" placeholder="e-mail">
+                    <input type="text" name="username" id="" placeholder="логин">
                 </div>
                 <div class="container-login-wrapper-form-password container-login-wrapper-form-input">
                     <input type="password" name="password" id="" placeholder="Пароль">
