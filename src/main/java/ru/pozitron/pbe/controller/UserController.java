@@ -1,19 +1,19 @@
 package ru.pozitron.pbe.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.pozitron.pbe.domain.Category;
 import ru.pozitron.pbe.domain.Role;
 import ru.pozitron.pbe.domain.User;
-import ru.pozitron.pbe.repository.CategoryRepository;
 import ru.pozitron.pbe.repository.UserRepository;
 import ru.pozitron.pbe.service.UserService;
 
+import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,12 +21,13 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
+
+    public UserController(UserRepository userRepository, UserService userService) {
+        this.userRepository = userRepository;
+        this.userService = userService;
+    }
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -64,6 +65,7 @@ public class UserController {
     }
     @GetMapping(value = {"/profile","/profile/*"})
     public String userProfile(@AuthenticationPrincipal User user,Model model){
+        user = userRepository.getOne(user.getId());
         model.addAttribute("user",user);
         return "userProfile";
     }
@@ -76,18 +78,32 @@ public class UserController {
 
     @PostMapping("/profile")
     public String updateUserProfile(@AuthenticationPrincipal User user,
-                                    @RequestParam(required = false) String name,
-                                    @RequestParam(required = false) String surname,
-                                    @RequestParam(required = false) String username,
-                                    @RequestParam(required = false) String email,
-                                    @RequestParam(required = false) String number,
+                                    @Valid User validUser,
+                                    BindingResult bindingResult,
                                     Model model){
+        user = userRepository.getOne(user.getId());
+        Map<String,String> errors = new HashMap<>();
 
-        if (name != null && !name.equals(user.getName())) model.addAttribute("nameMessage",userService.updateUserName(user,name));
-        if (surname != null && !surname.equals(user.getSurname())) model.addAttribute("surnameMessage",userService.updateUserSurname(user,surname));
-        if (username != null && !username.equals(user.getUsername())) model.addAttribute("usernameMessage",userService.updateUserUsername(user,username));
-        if (email != null && !email.equals(user.getEmail())) model.addAttribute("emailMessage",userService.updateUserEmail(user,email));
-        if (number != null && !number.equals(user.getNumber())) model.addAttribute("numberMessage",userService.updateUserNumber(user,number));
+        if (bindingResult.hasErrors()){
+            errors = ControllerUtils.getErrors(bindingResult);
+            errors.remove("passwordError");
+        }
+
+        if (!errors.isEmpty()){
+            if (!user.isActive())
+                errors.put("activateError","что бы вносить изменения активируйте аккаунт");
+
+            model.addAttribute("validErrors",errors.values());
+            model.addAttribute("user",user);
+            return "userProfile";
+        }
+        user.setName(validUser.getName());
+        if(!validUser.getSurname().isEmpty()) user.setSurname(validUser.getSurname());
+        user.setUsername(validUser.getUsername());
+        if (!validUser.getEmail().equals(user.getEmail())){
+            model.addAttribute("emailMessage",userService.updateUserEmail(user,validUser.getEmail()));
+        }
+        if(!validUser.getNumber().isEmpty()) user.setNumber(validUser.getNumber());
         userRepository.save(user);
         model.addAttribute("user",user);
         return "userProfile";
@@ -108,8 +124,13 @@ public class UserController {
     }
     @PostMapping("/profile/changePassword")
     public String changePassword(@AuthenticationPrincipal User user,String oldPassword,String newPassword,Model model){
-        model.addAttribute(userService.updatePassword(user,oldPassword,newPassword));
-        userRepository.save(user);
-        return "redirect:/user/profile";
+        if (userService.updatePassword(user,oldPassword,newPassword)){
+            model.addAttribute("passwordMessage","пароль изменен");
+        }
+        else {
+            model.addAttribute("error","аккаунт не активирован или старый пароль был введен не верно");
+        }
+
+        return "changePass";
     }
 }
