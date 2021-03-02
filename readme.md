@@ -10,4 +10,3 @@
 - FreeMarker
 - jQuery
 - PostgreSQL
-##### The site was put on web hosting for example [Visit the website](http://pbe-pozitron.tk/)
